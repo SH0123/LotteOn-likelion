@@ -5,8 +5,7 @@ import CheckBox from "@react-native-community/checkbox";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SettingScreen() {
-  const [allergyCheck, setallergyCheck] = useState(false);
-  const allergyList = [
+  const [allergyCheck, setallergyCheck] = useState([
     {
       content: "우유",
       check: false,
@@ -31,7 +30,33 @@ export default function SettingScreen() {
       content: "견과류",
       check: false,
     },
-  ];
+  ]);
+
+  const setallergy  = (key)=>{
+    const newAllergy = allergyCheck;
+    newAllergy[key].check = !newAllergy[key].check;
+    setallergyCheck(newAllergy);
+    console.log(allergyCheck[key].check);
+  }
+
+  const [etcCheck, setetcCheck] = useState( [
+    {
+      content: "할랄",
+      check: false,
+    },
+    {
+      content: "비건",
+      check: false,
+    },
+  ]);
+
+  const setEtc  = (key)=>{
+    const newEtc = etcCheck;
+    newEtc[key].check = !etcCheck[key].check;
+    setetcCheck(newEtc);
+    console.log(etcCheck[key].check);
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,17 +76,16 @@ export default function SettingScreen() {
         <Text style={{ fontSize: 20 }}>알레르기 </Text>
         <View style={styles.line} />
 
-        {allergyList.map((allergy, key) => (
+        {allergyCheck.map((allergy, key) => (
           <View style={{ flexDirection: "column" }} key={key}>
-            <View style={{ flexDirection: "row" }}>
-              <CheckBox
-                key={key}
-                value={allergy.check}
-                onValueChange={setallergyCheck}
-                onAnimationType="stroke"
-              />
-              <Text style={{ marginTop: 5 }}> {allergy.content}</Text>
-            </View>
+             <TouchableOpacity style={{ flexDirection: "row" }} onPressOut={() => setallergy(key)}>
+              {allergy.check ?(
+                <Text>✔ </Text>
+              ):(
+                <Text>✖</Text>
+              )}
+              <Text style={{ marginTop: 5, color:"gray"}}> {allergy.content}</Text>
+            </TouchableOpacity>
           </View>
         ))}
       </View>
@@ -69,7 +93,18 @@ export default function SettingScreen() {
       <View style={styles.etc}>
         <Text style={{ fontSize: 20 }}>추가 옵션</Text>
         <View style={styles.line} />
-        <View></View>
+        {etcCheck.map((etc, key) => (
+          <View style={{ flexDirection: "column" }} key={key}>
+             <TouchableOpacity style={{ flexDirection: "row" }} onPressOut={() => setEtc(key)}>
+              {etc.check ?(
+                <Text>✔ </Text>
+              ):(
+                <Text>✖</Text>
+              )}
+              <Text style={{ marginTop: 5, color:"gray"}}> {etc.content}</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
       </View>
     </SafeAreaView>
   );
