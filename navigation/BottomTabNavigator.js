@@ -5,7 +5,8 @@ import * as React from "react";
 
 import {
     TabOneNavigator,
-    TabTwoNavigator
+    TabTwoNavigator,
+    TabThreeNavigator
   } from "./StackNavigator";
 
   const BottomTab = createBottomTabNavigator();
@@ -31,7 +32,15 @@ export default function BottomTabNavigator() {
           )
         }}
       />
-     
+     <BottomTab.Screen
+        name="즐겨찾기"
+        component={TabThreeNavigator}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="md-person" color={color} size={23} />
+          )
+        }}
+      />
     </BottomTab.Navigator>
   );
 }
