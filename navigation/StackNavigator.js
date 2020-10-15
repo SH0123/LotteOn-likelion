@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 
 import SearchScreen from "../screen/TabOne/SearchScreen";
+import ResultsScreen from "../screen/TabOne/ResultsScreen";
 import SettingScreen from "../screen/TabTwo/SettingScreen";
 import FavoritesScreen from "../screen/TabThree/FavoritesScreen";
 
@@ -19,6 +20,11 @@ export function TabOneNavigator() {
         component={SearchScreen}
         options={navOptionHandler}
       />
+      <TabOneStack.Screen
+        name="ResultsScreen"
+        component={ResultsScreen}
+        options={navOptionHandler}
+      />
     </TabOneStack.Navigator>
   );
 }
@@ -34,6 +40,7 @@ export function TabTwoNavigator() {
         options={navOptionHandler}
       />
     </TabTwoStack.Navigator>
+    
   );
 }
 

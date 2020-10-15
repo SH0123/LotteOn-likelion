@@ -37,7 +37,7 @@ export default function BottomTabNavigator() {
         component={TabThreeNavigator}
         options={{
           tabBarIcon: ({ color }) => (
-            <Ionicons name="md-person" color={color} size={23} />
+            <Ionicons name="md-star" color={color} size={23} />
           )
         }}
       />
