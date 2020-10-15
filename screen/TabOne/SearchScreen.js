@@ -6,7 +6,7 @@ export default function SearchScreen({ navigation }) {
   const [ingredients, setIngredients] = useState([
     {
       division: "두부",
-      name: "국산콩두부",
+      name: "국산 콩두부",
       barcodeNumber: "110003",
       availableFood: ["두부조림", "두부찌개"],
       company: "풀무원",
@@ -16,7 +16,7 @@ export default function SearchScreen({ navigation }) {
     },
     {
       division: "두부",
-      name: "미국산콩두부",
+      name: "미국산 콩두부",
       barcodeNumber: "110003",
       availableFood: ["두부조림", "두부찌개"],
       company: "CJ",
@@ -51,13 +51,21 @@ export default function SearchScreen({ navigation }) {
       order: ["1번 순서", "2번순서", "3번순서"],
       uri: "../../images/recipe/두부 두루치기.jpeg",
     },
+    {
+      division: "김치",
+      name: "두부 두루치기",
+      ingredients: ["재료 1", "재료 2", "재료 3", "재료 4"],
+      seasoning: ["양념 1", "양념 2"],
+      order: ["1번 순서", "2번순서", "3번순서"],
+      uri: "../../images/recipe/두부 두루치기.jpeg",
+    },
   ]
   );
 
   return (
     <SafeAreaView style={styles.container}>
       <Text>Search Screen</Text>
-      <Button title="test" onPress={() => { navigation.navigate('ResultsScreen', { results: { ingredients }, recipes: { recipe } }) }} />
+      <Button title="test" onPress={() => { navigation.navigate('ResultsScreen', { results: ingredients, recipes: recipe }) }} />
     </SafeAreaView>
   );
 }

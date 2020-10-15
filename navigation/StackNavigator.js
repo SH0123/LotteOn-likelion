@@ -3,12 +3,13 @@ import * as React from "react";
 
 import SearchScreen from "../screen/TabOne/SearchScreen";
 import ResultsScreen from "../screen/TabOne/ResultsScreen";
+import IngResultScreen from "../screen/TabOne/IngResultScreen";
 import SettingScreen from "../screen/TabTwo/SettingScreen";
 import FavoritesScreen from "../screen/TabThree/FavoritesScreen";
 
 const navOptionHandler = () => ({
-    headerShown: false
-  });  
+  headerShown: false
+});
 
 const TabOneStack = createStackNavigator();
 
@@ -23,6 +24,11 @@ export function TabOneNavigator() {
       <TabOneStack.Screen
         name="ResultsScreen"
         component={ResultsScreen}
+        options={navOptionHandler}
+      />
+      <TabOneStack.Screen
+        name="IngResultScreen"
+        component={IngResultScreen}
         options={navOptionHandler}
       />
     </TabOneStack.Navigator>
@@ -40,7 +46,7 @@ export function TabTwoNavigator() {
         options={navOptionHandler}
       />
     </TabTwoStack.Navigator>
-    
+
   );
 }
 

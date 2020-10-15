@@ -5,9 +5,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ route, navigation }) {
-  const { recipe } = route.params.recipes;
+  const { recipes } = route.params;
 
-  const rec = recipe.filter(menu => menu.division === route.params.results.ingredients[0].division); // 검색한 상품으로 만들 수 있는 레시피
+  const rec = recipes.filter(menu => menu.division === route.params.results[0].division); // 검색한 상품으로 만들 수 있는 레시피
   const recOut = rec.filter(menu => rec.indexOf(menu) < 2); // 화면에 뜰 레시피
 
   return (
@@ -17,13 +17,13 @@ export default function SearchScreen({ route, navigation }) {
         <Text style={styles.textSize}>검색결과</Text>
         <FlatList
           horizontal={true}
-          data={route.params.results.ingredients}
+          data={route.params.results}
           renderItem={({ item }) => {
 
             return (
               <TouchableOpacity
                 style={styles.ingredientContainer}
-                onPress={() => navigation.navigate()}
+                onPress={() => navigation.navigate("IngResultScreen", { product: item, recipes: recipes })}
               >
                 <Image style={{
                   width: 150,
