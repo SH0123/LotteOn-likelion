@@ -12,7 +12,7 @@ export default function IngResultScreen({ route, navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Header navigation={navigation} />
+            <Header navigation={navigation} name={route.params.product.name} />
             <View style={styles.productContainer}>
                 <Image style={{
                     width: 300,
@@ -23,13 +23,16 @@ export default function IngResultScreen({ route, navigation }) {
             </View>
             <View style={styles.cautionContainer}>
                 <Text style={styles.subtitleText}>주의 항목 : </Text>
-                {route.params.product.caution.map(cau => <Text style={styles.cautionText}>{cau}</Text>)}
+                {route.params.product.warnings.map(cau => <Text style={styles.cautionText}>{cau}</Text>)}
             </View>
             <View style={styles.recomContainer}>
                 <Text style={styles.subtitleText}>레시피 추천</Text>
                 <View style={styles.recomBox}>
                     {rec.map(dish =>
-                        <View style={styles.recomDetail}>
+                        <TouchableOpacity
+                            style={styles.recomDetail}
+                            onPress={() => { navigation.navigate("RecipeScreen", { recipe: dish }) }}
+                        >
                             <Image style={{
                                 width: 80,
                                 height: 80,
@@ -37,14 +40,14 @@ export default function IngResultScreen({ route, navigation }) {
 
                             }} source={{ uri: dish.uri }} />
                             <Text>{dish.name}</Text>
-                        </View>)}
+                        </TouchableOpacity>)}
                 </View>
             </View>
         </SafeAreaView >
     );
 }
 
-const Header = ({ navigation }) => {
+const Header = ({ navigation, name }) => {
     return (
         <View style={styles.headerContainer}>
             <TouchableOpacity
@@ -54,7 +57,7 @@ const Header = ({ navigation }) => {
                 <Ionicons name="md-arrow-back" size={25} />
             </TouchableOpacity>
             <View style={styles.headerTitleContainer}>
-                <Text style={styles.headerTitle}>제품 이름</Text>
+                <Text style={styles.headerTitle}>{name}</Text>
             </View>
             <TouchableOpacity style={styles.headerStar}>
                 <Ionicons name="md-star-outline" size={25} />

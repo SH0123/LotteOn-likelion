@@ -4,6 +4,7 @@ import * as React from "react";
 import SearchScreen from "../screen/TabOne/SearchScreen";
 import ResultsScreen from "../screen/TabOne/ResultsScreen";
 import IngResultScreen from "../screen/TabOne/IngResultScreen";
+import RecipeScreen from "../screen/TabOne/RecipeScreen";
 import SettingScreen from "../screen/TabTwo/SettingScreen";
 import FavoritesScreen from "../screen/TabThree/FavoritesScreen";
 
@@ -29,6 +30,11 @@ export function TabOneNavigator() {
       <TabOneStack.Screen
         name="IngResultScreen"
         component={IngResultScreen}
+        options={navOptionHandler}
+      />
+      <TabOneStack.Screen
+        name="RecipeScreen"
+        component={RecipeScreen}
         options={navOptionHandler}
       />
     </TabOneStack.Navigator>

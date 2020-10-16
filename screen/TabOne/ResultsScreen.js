@@ -48,10 +48,14 @@ export default function SearchScreen({ route, navigation }) {
           <View style={styles.recipeContainer}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text style={styles.textSize}>{dish.name}</Text>
-              <Text style={{ paddingLeft: 20 }}>레시피 보기...</Text>
+              <TouchableOpacity
+                onPress={() => { navigation.navigate("RecipeScreen", { recipe: dish }) }}
+              >
+                <Text style={{ paddingLeft: 20 }}>레시피 보기...</Text>
+              </TouchableOpacity>
             </View>
             <View style={{ flexDirection: "row", paddingTop: 10 }}>
-              {dish.ingredients.map(ingredient => <Text style={styles.ingInRecipe}>{ingredient}</Text>)}
+              {dish.ingredients.map(ingredient => <Text style={styles.ingInRecipe}>{ingredient.name}</Text>)}
             </View>
           </View>
         ))}
