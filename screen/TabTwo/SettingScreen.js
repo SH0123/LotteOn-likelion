@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import CheckBox from "@react-native-community/checkbox";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SettingScreen() {
@@ -53,8 +53,8 @@ export default function SettingScreen() {
   const setEtc  = (key)=>{
     const newEtc = etcCheck;
     newEtc[key].check = !etcCheck[key].check;
-    setetcCheck(newEtc);
     console.log(etcCheck[key].check);
+    return (setetcCheck(newEtc));
   }
 
 
@@ -72,19 +72,20 @@ export default function SettingScreen() {
         </TouchableOpacity>
       </View>
 
+                                        
       <View style={styles.allergy}>
         <Text style={{ fontSize: 20 }}>알레르기 </Text>
         <View style={styles.line} />
 
         {allergyCheck.map((allergy, key) => (
-          <View style={{ flexDirection: "column" }} key={key}>
-             <TouchableOpacity style={{ flexDirection: "row" }} onPressOut={() => setallergy(key)}>
+          <View  style={styles.col}  key={key}>
+             <TouchableOpacity  style={styles.row} onPressOut={() => setallergy(key)}>
               {allergy.check ?(
-                <Text>✔ </Text>
+                <MaterialCommunityIcons size={22} name='checkbox-marked-circle-outline' />
               ):(
-                <Text>✖</Text>
+                <MaterialCommunityIcons size={22} name='checkbox-blank-circle-outline' />
               )}
-              <Text style={{ marginTop: 5, color:"gray"}}> {allergy.content}</Text>
+              <Text style={styles.listContent}> {allergy.content}</Text>
             </TouchableOpacity>
           </View>
         ))}
@@ -94,14 +95,14 @@ export default function SettingScreen() {
         <Text style={{ fontSize: 20 }}>추가 옵션</Text>
         <View style={styles.line} />
         {etcCheck.map((etc, key) => (
-          <View style={{ flexDirection: "column" }} key={key}>
-             <TouchableOpacity style={{ flexDirection: "row" }} onPressOut={() => setEtc(key)}>
+          <View style={styles.col} key={key}>
+             <TouchableOpacity style={styles.row} onPressOut={() => setEtc(key)}>
               {etc.check ?(
-                <Text>✔ </Text>
-              ):(
-                <Text>✖</Text>
-              )}
-              <Text style={{ marginTop: 5, color:"gray"}}> {etc.content}</Text>
+                <MaterialCommunityIcons size={22} name='checkbox-marked-circle-outline' />
+                ):(
+                  <MaterialCommunityIcons size={22} name='checkbox-blank-circle-outline' />
+                )}
+              <Text style={styles.listContent}> {etc.content}</Text>
             </TouchableOpacity>
           </View>
         ))}
@@ -144,6 +145,19 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "powderblue",
     alignItems: "flex-end",
+  },
+
+  col:{
+    flexDirection: "column" , 
+    marginTop:5,
+  },  
+  row:{
+    flexDirection: "row" , 
+  }, 
+   listContent:{
+    color:"black",
+    fontSize:15,
+    marginTop:2
   },
 
   allergy: {
