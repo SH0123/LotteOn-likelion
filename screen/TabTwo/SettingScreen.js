@@ -31,6 +31,7 @@ export default function SettingScreen() {
       check: false,
     },
   ]);
+  
 
   const setallergy  = (key)=>{
     const newAllergy = allergyCheck;
