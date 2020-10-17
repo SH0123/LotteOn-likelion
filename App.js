@@ -16,3 +16,9 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+export const Fonts = {
+  Medium: "GothicA1-Medium",
+  Bold: "GothicA1-Bold",
+  ExtraBold: "GothicA1-ExtraBold"
+};

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
+import TodoItem from "./Todo";
 
 export default function SettingScreen() {
   const [allergyCheck, setallergyCheck] = useState([
@@ -34,11 +35,12 @@ export default function SettingScreen() {
   
 
   const setallergy  = (key)=>{
-    const newAllergy = allergyCheck;
-    newAllergy[key].check = !newAllergy[key].check;
-    setallergyCheck(newAllergy);
-    console.log(allergyCheck[key].check);
-  }
+   const newAllergy = allergyCheck;
+   newAllergy[key].check = !allergyCheck[key].check;
+   setallergyCheck(newAllergy);
+    return (allergyCheck);
+
+  };
 
   const [etcCheck, setetcCheck] = useState( [
     {
@@ -52,12 +54,12 @@ export default function SettingScreen() {
   ]);
 
   const setEtc  = (key)=>{
+    console.log(key);
     const newEtc = etcCheck;
     newEtc[key].check = !etcCheck[key].check;
     console.log(etcCheck[key].check);
     return (setetcCheck(newEtc));
   }
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -65,7 +67,7 @@ export default function SettingScreen() {
         <Text style={styles.title}>개인설정</Text>
 
         <TouchableOpacity
-          onPress={() => {}}
+          onPress={() => {}} 
           activeOpacity={0.3}
           style={styles.button}
         >
@@ -77,19 +79,20 @@ export default function SettingScreen() {
       <View style={styles.allergy}>
         <Text style={{ fontSize: 20 }}>알레르기 </Text>
         <View style={styles.line} />
-
-        {allergyCheck.map((allergy, key) => (
-          <View  style={styles.col}  key={key}>
-             <TouchableOpacity  style={styles.row} onPressOut={() => setallergy(key)}>
+          {allergyCheck.map((allergy, key) => (
+            <View  style={styles.col} key = {key}>
+              <TouchableOpacity  style={styles.row}  onPress={()=>setallergy(key)}>
               {allergy.check ?(
                 <MaterialCommunityIcons size={22} name='checkbox-marked-circle-outline' />
-              ):(
+                ):(
                 <MaterialCommunityIcons size={22} name='checkbox-blank-circle-outline' />
-              )}
+                )
+              }
               <Text style={styles.listContent}> {allergy.content}</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
+              </TouchableOpacity>
+              {/* <TodoItem key ={key} allergy = {allergy}  setallergy={setallergy} ></TodoItem> */}
+            </View>
+          ))}
       </View>
 
       <View style={styles.etc}>
@@ -97,7 +100,7 @@ export default function SettingScreen() {
         <View style={styles.line} />
         {etcCheck.map((etc, key) => (
           <View style={styles.col} key={key}>
-             <TouchableOpacity style={styles.row} onPressOut={() => setEtc(key)}>
+             <TouchableOpacity style={styles.row} onPress={() => setEtc(key)}>
               {etc.check ?(
                 <MaterialCommunityIcons size={22} name='checkbox-marked-circle-outline' />
                 ):(
