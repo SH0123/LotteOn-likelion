@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SearchScreen({ navigation }) {
@@ -15,7 +15,8 @@ export default function SearchScreen({ navigation }) {
       uri: "../../images/ingredients/풀무원 두부.png",
       feature: ["비건"],
       crossReaction: [""],
-      allergies: ["콩"]
+      allergies: ["콩"],
+      type: "ingredients"
     },
     {
       division: "두부",
@@ -28,7 +29,8 @@ export default function SearchScreen({ navigation }) {
       uri: "../../images/ingredients/cj두부.png",
       feature: ["비건"],
       crossReaction: [""],
-      allergies: ["콩"]
+      allergies: ["콩"],
+      type: "ingredients"
     },
   ]
   );
@@ -37,7 +39,7 @@ export default function SearchScreen({ navigation }) {
       division: "두부",
       name: "두부조림",
       ingredients: [{ name: "재료 1", quantity: "1" }, { name: "재료 2", quantity: "2" }, { name: "재료 3", quantity: "3" }],
-      seasoning: [{ name: "양념 1", quantity: 1 }, { name: "양념 2", quantity: 2 }],
+      seasoning: [{ name: "양념 1", quantity: "1" }, { name: "양념 2", quantity: "2" }],
       directions: [{ order: "1번 순서", uri: "../../images/recipe/두부조림/1.jpeg" },
       { order: "2번 순서", uri: "../../images/recipe/두부조림/2.jpeg" },
       { order: "3번 순서", uri: "../../images/recipe/두부조림/3.jpeg" }],
@@ -45,7 +47,8 @@ export default function SearchScreen({ navigation }) {
       time: "30분",
       serving: "2인분",
       allergies: ["두부"],
-      feature: ["비건"]
+      feature: ["비건"],
+      type: "recipe"
     },
     {
       division: "두부",
@@ -59,7 +62,8 @@ export default function SearchScreen({ navigation }) {
       time: "30분",
       serving: "2인분",
       allergies: ["두부"],
-      feature: ["비건"]
+      feature: ["비건"],
+      type: "recipe"
     },
     {
       division: "두부",
@@ -73,7 +77,8 @@ export default function SearchScreen({ navigation }) {
       time: "30분",
       serving: "2인분",
       allergies: ["두부"],
-      feature: ["비건"]
+      feature: ["비건"],
+      type: "recipe"
     },
     {
       division: "김치",
@@ -87,14 +92,45 @@ export default function SearchScreen({ navigation }) {
       time: "30분",
       serving: "2인분",
       allergies: ["두부"],
-      feature: ["비건"]
+      feature: ["비건"],
+      type: "recipe"
     },
   ]
   );
 
+  const [value, onChangeText] = React.useState("");
+
+  const filterList = (list) => {
+    return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()));
+  }
+
+  const listCat = [...ingredients, ...recipe]
   return (
     <SafeAreaView style={styles.container}>
       <Text>Search Screen</Text>
+      <TextInput
+        style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1 }}
+        onChangeText={text => onChangeText(text)}
+        value={value} />
+      <FlatList
+        data={filterList(listCat)}
+        keyExtractor={(item, index) => index}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity
+              onPress={() => navigation.navigate(item.type === "ingredients" ? "ResultsScreen" : "IngResultScreen", {
+                results: typeof (item) === "object" ?
+                  Object.values(item) :
+                  item, recipes: recipe
+              })}//여기 수정해야함
+            >
+              <Text>
+                {item.name}
+              </Text>
+            </TouchableOpacity>)
+
+        }}
+      />
       <Button title="test" onPress={() => { navigation.navigate('ResultsScreen', { results: ingredients, recipes: recipe }) }} />
     </SafeAreaView>
   );

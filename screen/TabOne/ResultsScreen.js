@@ -6,7 +6,7 @@ const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ route, navigation }) {
   const { recipes } = route.params;
-
+  console.log(route.params.results)
   const rec = recipes.filter(menu => menu.division === route.params.results[0].division); // 검색한 상품으로 만들 수 있는 레시피
   const recOut = rec.filter(menu => rec.indexOf(menu) < 2); // 화면에 뜰 레시피
 
@@ -23,7 +23,7 @@ export default function SearchScreen({ route, navigation }) {
             return (
               <TouchableOpacity
                 style={styles.ingredientContainer}
-                onPress={() => navigation.navigate("IngResultScreen", { product: item, recipes: recipes })}
+                onPress={() => navigation.navigate("IngResultScreen", { results: item, recipes: recipes })}
               >
                 <Image style={{
                   width: 150,
@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
   recipesContainer: {
     backgroundColor: "skyblue",
     width: width - 30,
-    flex: 3
+    flex: 3,
+    paddingTop: 20
   },
   recipeContainer: {
     marginTop: 15

@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingBottom: 10
+        paddingBottom: 10,
+        paddingTop: 20
     },
     headerLeft: {
         flex: 1,
@@ -110,12 +111,14 @@ const styles = StyleSheet.create({
     cautionContainer: {
         backgroundColor: "pink",
         width: width - 30,
-        flex: 2
+        flex: 2,
+        paddingTop: 15
     },
     recomContainer: {
         width: width - 30,
         backgroundColor: "skyblue",
-        flex: 2
+        flex: 2,
+        paddingTop: 15
     },
     recomBox: {
         flexDirection: "row"

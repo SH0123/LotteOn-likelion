@@ -19,33 +19,44 @@ export default function RecipeScreen({ navigation, route }) {
                     }} source={{ uri: route.params.recipe.uri }} />
                 </View>
                 <View style={styles.informationContainer}>
-                    <View>
+                    <View style={styles.informationBox}>
                         <MaterialIcons name="timer" size={40} />
+                        <Text>{route.params.recipe.time}</Text>
                     </View>
-                    <View>
+                    <View style={styles.informationBox}>
                         <Ionicons name="md-people" size={40} />
+                        <Text>{route.params.recipe.serving}</Text>
                     </View>
-                    <View>
+                    <View style={styles.informationBox}>
                         <MaterialCommunityIcons name="alert" size={40} />
+                        <Text>{route.params.recipe.allergies}</Text>
                     </View>
                 </View>
                 <View style={styles.ingredientsContainer}>
                     <View style={styles.ingredientsBox}>
-                        <Text>재료</Text>
+                        <Text style={styles.boxTitle}>재료</Text>
                         {route.params.recipe.ingredients.map(
-                            ingredient => <Text>{ingredient.name} ------- {ingredient.quantity}</Text>)
+                            ingredient => <Text style={styles.boxText}>{ingredient.name} ------- {ingredient.quantity}</Text>)
                         }
                     </View>
                     <View style={styles.seasoningBox}>
-                        <Text>양념</Text>
+                        <Text style={styles.boxTitle}>양념</Text>
                         {route.params.recipe.seasoning.map(
-                            ingredient => <Text>{ingredient.name} ------- {ingredient.quantity}</Text>)
+                            ingredient => <Text style={styles.boxText}>{ingredient.name} ------- {ingredient.quantity}</Text>)
                         }
                     </View>
                 </View>
                 <View style={styles.directionsContainer}>
-                    <Text>조리 순서</Text>
-                    
+                    <Text style={styles.boxTitle}>조리 순서</Text>
+                    {route.params.recipe.directions.map((direction, index) =>
+                        <View style={styles.directionBox}>
+                            <Text style={styles.boxText}>{index + 1}. {direction.order}</Text>
+                            <Image style={{
+                                width: 250,
+                                height: 200,
+                                resizeMode: 'contain'
+                            }} source={{ uri: direction.uri }} />
+                        </View>)}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -84,7 +95,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingBottom: 10
+        paddingBottom: 10,
+        paddingTop: 20
+
     },
     headerLeft: {
         flex: 1,
@@ -109,8 +122,14 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginHorizontal: 50,
         justifyContent: "space-between",
-        backgroundColor: "yellow"
+        backgroundColor: "yellow",
+        paddingVertical: 10
     },
+    informationBox: {
+
+        alignItems: "center"
+    }
+    ,
     ingredientsContainer: {
         flexDirection: "row",
         width: width - 30,
@@ -127,5 +146,15 @@ const styles = StyleSheet.create({
     },
     directionsContainer: {
         backgroundColor: "skyblue"
+    },
+    directionBox: {
+        marginTop: 8
+    },
+    boxTitle: {
+        fontSize: 20,
+        paddingVertical: 10
+    },
+    boxText: {
+        paddingVertical: 2
     }
 });
