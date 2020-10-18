@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get('window');
@@ -18,7 +18,7 @@ export default function IngResultScreen({ route, navigation }) {
                     width: 300,
                     height: 200,
                     resizeMode: 'contain'
-                }} source={{ uri: route.params.product.uri }} />
+                }} source={route.params.product.uri} />
                 <Text style={styles.foodTitle}>{route.params.product.name} ----- {route.params.product.price}원</Text>
             </View>
             <View style={styles.cautionContainer}>
@@ -27,21 +27,29 @@ export default function IngResultScreen({ route, navigation }) {
             </View>
             <View style={styles.recomContainer}>
                 <Text style={styles.subtitleText}>레시피 추천</Text>
-                <View style={styles.recomBox}>
-                    {rec.map(dish =>
-                        <TouchableOpacity
-                            style={styles.recomDetail}
-                            onPress={() => { navigation.navigate("RecipeScreen", { recipe: dish }) }}
-                        >
-                            <Image style={{
-                                width: 80,
-                                height: 80,
-                                resizeMode: 'contain',
+                <FlatList
+                    style={styles.recomBox}
+                    horizontal={true}
+                    data={rec}
+                    renderItem={({ item }) => {
 
-                            }} source={{ uri: dish.uri }} />
-                            <Text>{dish.name}</Text>
-                        </TouchableOpacity>)}
-                </View>
+                        return (
+                            <TouchableOpacity
+                                style={styles.recomDetail}
+                                onPress={() => { navigation.navigate("RecipeScreen", { recipe: item }) }}
+                            >
+                                <Image style={{
+                                    width: 80,
+                                    height: 80,
+                                    resizeMode: 'contain',
+
+                                }} source={item.uri} />
+                                <Text>{item.name}</Text>
+                            </TouchableOpacity>
+                        )
+                    }}
+                    keyExtractor={({ item, index }) => `${index}`} />
+
             </View>
         </SafeAreaView >
     );

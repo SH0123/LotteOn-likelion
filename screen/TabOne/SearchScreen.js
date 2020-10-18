@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableOpacity, Dimensions, Modal } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableOpacity, Dimensions, Modal, Image } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { RNCamera } from 'react-native-camera';
@@ -10,6 +10,7 @@ const { width, height } = Dimensions.get('window');
 export default function SearchScreen({ navigation }) {
   const [ingredients, setIngredients] = useState([
     {
+
       division: "두부",
       name: "국산 콩두부",
       barcodeNumber: "110003",
@@ -17,21 +18,22 @@ export default function SearchScreen({ navigation }) {
       brand: "풀무원",
       price: "5190",
       warnings: ["새우를 포함한 제품과 같은 제조 시설 사용", "돼지고기 포함"],
-      uri: "../../images/ingredients/풀무원 두부.png",
+      uri: require("../../images/ingredients/풀무원두부.jpeg"),
       feature: ["비건"],
       crossReaction: [""],
       allergies: ["콩"],
       type: "ingredients"
     },
     {
+
       division: "두부",
       name: "미국산 콩두부",
-      barcodeNumber: "110003",
-      relatedRecipes: ["두부조림", "두부찌개"],
-      brand: "풀무원",
-      price: "5190",
+      barcodeNumber: "1100034",
+      relatedRecipes: ["두부조림", "두부 두루치기"],
+      brand: "cj",
+      price: "6000",
       warnings: ["새우를 포함한 제품과 같은 제조 시설 사용", "돼지고기 포함"],
-      uri: "../../images/ingredients/cj두부.png",
+      uri: require("../../images/ingredients/cj두부.png"),
       feature: ["비건"],
       crossReaction: [""],
       allergies: ["콩"],
@@ -45,10 +47,10 @@ export default function SearchScreen({ navigation }) {
       name: "두부조림",
       ingredients: [{ name: "재료 1", quantity: "1" }, { name: "재료 2", quantity: "2" }, { name: "재료 3", quantity: "3" }],
       seasoning: [{ name: "양념 1", quantity: "1" }, { name: "양념 2", quantity: "2" }],
-      directions: [{ order: "1번 순서", uri: "../../images/recipe/두부조림/1.jpeg" },
-      { order: "2번 순서", uri: "../../images/recipe/두부조림/2.jpeg" },
-      { order: "3번 순서", uri: "../../images/recipe/두부조림/3.jpeg" }],
-      uri: "../../images/recipe/두부조림/두부조림.jpeg",
+      directions: [{ order: "1번 순서", uri: require("../../images/recipe/두부조림/1.jpeg") },
+      { order: "2번 순서", uri: require("../../images/recipe/두부조림/2.jpeg") },
+      { order: "3번 순서", uri: require("../../images/recipe/두부조림/3.jpeg") }],
+      uri: require("../../images/recipe/두부조림/두부조림.jpeg"),
       time: "30분",
       serving: "2인분",
       allergies: ["두부"],
@@ -60,10 +62,10 @@ export default function SearchScreen({ navigation }) {
       name: "두부찌개",
       ingredients: [{ name: "재료 1", quantity: "1" }, { name: "재료 2", quantity: "2" }, { name: "재료 3", quantity: "3" }],
       seasoning: [{ name: "양념 1", quantity: 1 }, { name: "양념 2", quantity: 2 }],
-      directions: [{ order: "1번 순서", uri: "../../images/recipe/두부조림/1.jpeg" },
-      { order: "2번 순서", uri: "../../images/recipe/두부조림/2.jpeg" },
-      { order: "3번 순서", uri: "../../images/recipe/두부조림/3.jpeg" }],
-      uri: "../../images/recipe/두부찌개/두부찌개.jpeg",
+      directions: [{ order: "1번 순서", uri: require("../../images/recipe/두부조림/1.jpeg") },
+      { order: "2번 순서", uri: require("../../images/recipe/두부조림/2.jpeg") },
+      { order: "3번 순서", uri: require("../../images/recipe/두부조림/3.jpeg") }],
+      uri: require("../../images/recipe/두부찌개/두부찌개.jpeg"),
       time: "30분",
       serving: "2인분",
       allergies: ["두부"],
@@ -75,10 +77,10 @@ export default function SearchScreen({ navigation }) {
       name: "두부 두루치기",
       ingredients: [{ name: "재료 1", quantity: "1" }, { name: "재료 2", quantity: "2" }, { name: "재료 3", quantity: "3" }],
       seasoning: [{ name: "양념 1", quantity: 1 }, { name: "양념 2", quantity: 2 }],
-      directions: [{ order: "1번 순서", uri: "../../images/recipe/두부조림/1.jpeg" },
-      { order: "2번 순서", uri: "../../images/recipe/두부조림/2.jpeg" },
-      { order: "3번 순서", uri: "../../images/recipe/두부조림/3.jpeg" }],
-      uri: "../../images/recipe/두부 두루치기/두부 두루치기.jpeg",
+      directions: [{ order: "1번 순서", uri: require("../../images/recipe/두부조림/1.jpeg") },
+      { order: "2번 순서", uri: require("../../images/recipe/두부조림/2.jpeg") },
+      { order: "3번 순서", uri: require("../../images/recipe/두부조림/3.jpeg") }],
+      uri: require("../../images/recipe/두부두루치기/두부두루치기.jpeg"),
       time: "30분",
       serving: "2인분",
       allergies: ["두부"],
@@ -90,10 +92,10 @@ export default function SearchScreen({ navigation }) {
       name: "두부 두루치기",
       ingredients: [{ name: "재료 1", quantity: "1" }, { name: "재료 2", quantity: "2" }, { name: "재료 3", quantity: "3" }],
       seasoning: [{ name: "양념 1", quantity: 1 }, { name: "양념 2", quantity: 2 }],
-      directions: [{ order: "1번 순서", uri: "../../images/recipe/두부조림/1.jpeg" },
-      { order: "2번 순서", uri: "../../images/recipe/두부조림/2.jpeg" },
-      { order: "3번 순서", uri: "../../images/recipe/두부조림/3.jpeg" }],
-      uri: "../../images/recipe/두부 두루치기/두부 두루치기.jpeg",
+      ddirections: [{ order: "1번 순서", uri: require("../../images/recipe/두부조림/1.jpeg") },
+      { order: "2번 순서", uri: require("../../images/recipe/두부조림/2.jpeg") },
+      { order: "3번 순서", uri: require("../../images/recipe/두부조림/3.jpeg") }],
+      uri: require("../../images/recipe/두부두루치기/두부두루치기.jpeg"),
       time: "30분",
       serving: "2인분",
       allergies: ["두부"],
@@ -120,9 +122,7 @@ export default function SearchScreen({ navigation }) {
     }
 
   }
-  const onBarCodeRead = (scanResult) => {
-    setBarcode(scanResult.data);
-  }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -153,7 +153,7 @@ export default function SearchScreen({ navigation }) {
         <FlatList
           style={styles.filterContainer}
           data={filterList(ingredients)}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => String(index)}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity
@@ -181,7 +181,7 @@ export default function SearchScreen({ navigation }) {
 const Header = ({ navigation }) => {
   return (
     <View style={styles.headerContainer}>
-      <Text>로고</Text>
+      <Image source={require("../../images/로고.png")} style={{ height: 100, width: 100 }} />
     </View>
   )
 }
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     width: width - 50,
   },
   inputContainer: {
-    flex: 3,
+    flex: 9,
     fontSize: 25
   },
   mdSearchContainer: {

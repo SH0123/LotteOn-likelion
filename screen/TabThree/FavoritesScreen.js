@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { RNCamera } from 'react-native-camera';
-import BarcodeMask from 'react-native-barcode-mask'
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 export default function FavoritesScreen() {
-  const [barcode, setBarcode] = React.useState("");
-  const onBarcodeRead = (scanResult) => {
-    setBarcode(scanResult.data)
-  }
+
+  const [scanned, setScanned] = useState(false);
+
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
   return (
     <View style={styles.container}>
-      <RNCamera
-        onBarCodeRead={this.onBarCodeRead}
-      // ... other related props of RNCamera
-      >
-        <BarcodeMask
-          width={100} height={300} showAnimatedLine={false} outerMaskOpacity={0.8}
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+        }}>
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
         />
-      </RNCamera>
 
+        {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+      </View>
     </View>
   );
 }

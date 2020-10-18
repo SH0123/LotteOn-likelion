@@ -11,12 +11,12 @@ export default function RecipeScreen({ navigation, route }) {
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} name={route.params.recipe.name} />
             <ScrollView>
-                <View>
+                <View style={styles.imageContainer}>
                     <Image style={{
                         width: 300,
                         height: 200,
                         resizeMode: 'contain'
-                    }} source={{ uri: route.params.recipe.uri }} />
+                    }} source={route.params.recipe.uri} />
                 </View>
                 <View style={styles.informationContainer}>
                     <View style={styles.informationBox}>
@@ -48,15 +48,18 @@ export default function RecipeScreen({ navigation, route }) {
                 </View>
                 <View style={styles.directionsContainer}>
                     <Text style={styles.boxTitle}>조리 순서</Text>
-                    {route.params.recipe.directions.map((direction, index) =>
-                        <View style={styles.directionBox}>
-                            <Text style={styles.boxText}>{index + 1}. {direction.order}</Text>
-                            <Image style={{
-                                width: 250,
-                                height: 200,
-                                resizeMode: 'contain'
-                            }} source={{ uri: direction.uri }} />
-                        </View>)}
+                    {route.params.recipe.directions.map((direction, index) => {
+                        return (
+                            <View style={styles.directionBox}>
+                                <Text style={styles.boxText}>{index + 1}. {direction.order}</Text>
+                                <Image style={{
+                                    width: 300,
+                                    height: 200,
+                                    resizeMode: 'contain'
+                                }} source={direction.uri} />
+                            </View>
+                        )
+                    })}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -117,6 +120,9 @@ const styles = StyleSheet.create({
         flex: 1,
         marginRight: 15,
         alignItems: "flex-end"
+    },
+    imageContainer: {
+        alignItems: "center"
     },
     informationContainer: {
         flexDirection: "row",

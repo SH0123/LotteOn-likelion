@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get('window');
@@ -41,23 +41,28 @@ export default function SearchScreen({ route, navigation }) {
                     style={styles.ingredientContainer}
                     onPress={() => navigation.navigate("IngResultScreen", { product: item, recipes: recipes })}
                   >
-                    <Image style={{
+                    <ImageBackground style={{
                       width: 150,
                       height: 150,
                       resizeMode: 'contain'
-                    }} source={{ uri: item.uri }} />
+                    }} source={item.uri} />
                     <Text>{item.name}</Text>
                     <Text>{item.price}원</Text>
                   </TouchableOpacity>
                 )
               }}
-              keyExtractor={({ item, index }) => {
-                return `${index}`;
-              }} />
+              keyExtractor={({ item, index }) => `${index}`} />
           </View>
           <View style={styles.recipesContainer}>
-            <View>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text style={styles.textSize}>오늘 이런 요리 어떠세요?</Text>
+              <TouchableOpacity
+                style={{ paddingLeft: 10 }}
+                onPress={() => { navigation.navigate }}
+              >
+                <Text >레시피 더 보기</Text>
+              </TouchableOpacity>
+
             </View>
 
             {recOut.map(dish => (
@@ -89,7 +94,7 @@ export default function SearchScreen({ route, navigation }) {
 const Header = ({ navigation }) => {
   return (
     <View style={styles.headerContainer}>
-      <Text>로고</Text>
+      <Image source={require("../../images/로고.png")} style={{ height: 100, width: 100 }} />
     </View>
   )
 }
