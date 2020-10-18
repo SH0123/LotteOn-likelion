@@ -57,8 +57,8 @@ export default function SearchScreen({ route, navigation }) {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text style={styles.textSize}>오늘 이런 요리 어떠세요?</Text>
               <TouchableOpacity
-                style={{ paddingLeft: 10 }}
-                onPress={() => { navigation.navigate }}
+                style={{ paddingLeft: 15 }}
+                onPress={() => { navigation.navigate("RecRecipeScreen", { recipes: rec }) }}
               >
                 <Text >레시피 더 보기</Text>
               </TouchableOpacity>
@@ -144,6 +144,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#7FFFD4"
   },
   textSize: {
-    fontSize: 25
+    fontSize: 22
   }
 });
