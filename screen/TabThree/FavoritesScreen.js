@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { RNCamera } from 'react-native-camera';
+import BarcodeMask from 'react-native-barcode-mask'
 
 export default function FavoritesScreen() {
+  const [barcode, setBarcode] = React.useState("");
+  const onBarcodeRead = (scanResult) => {
+    setBarcode(scanResult.data)
+  }
   return (
     <View style={styles.container}>
-      <Text>Favorites Screen</Text>
-      
+      <RNCamera
+        onBarCodeRead={this.onBarCodeRead}
+      // ... other related props of RNCamera
+      >
+        <BarcodeMask
+          width={100} height={300} showAnimatedLine={false} outerMaskOpacity={0.8}
+        />
+      </RNCamera>
+
     </View>
   );
 }

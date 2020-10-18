@@ -7,60 +7,81 @@ const { width, height } = Dimensions.get('window');
 export default function SearchScreen({ route, navigation }) {
   const { recipes } = route.params;
   console.log(route.params.results)
-  const rec = recipes.filter(menu => menu.division === route.params.results[0].division); // 검색한 상품으로 만들 수 있는 레시피
-  const recOut = rec.filter(menu => rec.indexOf(menu) < 2); // 화면에 뜰 레시피
+  if (route.params.results.length === undefined) {//결과 값이 하나인 경우
+    var resultsArr = [route.params.results];
+    var resultAvail = true;
+    // const resultsArr = Array.isArray(route.params.results) ? route.params.results : [route.params.results];// 검색 결과가 하나인 경우 배열로 다시 만들어주는 함수
+    var rec = recipes.filter(menu => menu.division === resultsArr[0].division); // 검색한 상품으로 만들 수 있는 레시피
+    var recOut = rec.filter(menu => rec.indexOf(menu) < 2); // 화면에 뜰 레시피
+  } else {
+    if (route.params.results.length === 0) {//결과 값이 없는 경우
+      var resultAvail = false;
+    } else {//결과 값이 두개 이상
+      var resultAvail = true;
+      var resultsArr = route.params.results;
+      var rec = recipes.filter(menu => menu.division === resultsArr[0].division); // 검색한 상품으로 만들 수 있는 레시피
+      var recOut = rec.filter(menu => rec.indexOf(menu) < 2); // 화면에 뜰 레시피
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <Header />
-      <View style={styles.ingResultContainer}>
-        <Text style={styles.textSize}>검색결과</Text>
-        <FlatList
-          horizontal={true}
-          data={route.params.results}
-          renderItem={({ item }) => {
+      {resultAvail ?
+        (<>
+          <View style={styles.ingResultContainer}>
+            <Text style={styles.textSize}>검색결과</Text>
+            <FlatList
+              horizontal={true}
+              data={resultsArr}
+              renderItem={({ item }) => {
 
-            return (
-              <TouchableOpacity
-                style={styles.ingredientContainer}
-                onPress={() => navigation.navigate("IngResultScreen", { results: item, recipes: recipes })}
-              >
-                <Image style={{
-                  width: 150,
-                  height: 150,
-                  resizeMode: 'contain'
-                }} source={{ uri: item.uri }} />
-                <Text>{item.name}</Text>
-                <Text>{item.price}원</Text>
-              </TouchableOpacity>
-            )
-          }}
-          keyExtractor={({ item, index }) => {
-            return `${index}`;
-          }} />
-      </View>
-      <View style={styles.recipesContainer}>
-        <View>
-          <Text style={styles.textSize}>오늘 이런 요리 어떠세요?</Text>
-        </View>
-
-        {recOut.map(dish => (
-          <View style={styles.recipeContainer}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={styles.textSize}>{dish.name}</Text>
-              <TouchableOpacity
-                onPress={() => { navigation.navigate("RecipeScreen", { recipe: dish }) }}
-              >
-                <Text style={{ paddingLeft: 20 }}>레시피 보기...</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{ flexDirection: "row", paddingTop: 10 }}>
-              {dish.ingredients.map(ingredient => <Text style={styles.ingInRecipe}>{ingredient.name}</Text>)}
-            </View>
+                return (
+                  <TouchableOpacity
+                    style={styles.ingredientContainer}
+                    onPress={() => navigation.navigate("IngResultScreen", { product: item, recipes: recipes })}
+                  >
+                    <Image style={{
+                      width: 150,
+                      height: 150,
+                      resizeMode: 'contain'
+                    }} source={{ uri: item.uri }} />
+                    <Text>{item.name}</Text>
+                    <Text>{item.price}원</Text>
+                  </TouchableOpacity>
+                )
+              }}
+              keyExtractor={({ item, index }) => {
+                return `${index}`;
+              }} />
           </View>
-        ))}
+          <View style={styles.recipesContainer}>
+            <View>
+              <Text style={styles.textSize}>오늘 이런 요리 어떠세요?</Text>
+            </View>
 
-      </View>
+            {recOut.map(dish => (
+              <View style={styles.recipeContainer}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text style={styles.textSize}>{dish.name}</Text>
+                  <TouchableOpacity
+                    onPress={() => { navigation.navigate("RecipeScreen", { recipe: dish }) }}
+                  >
+                    <Text style={{ paddingLeft: 20 }}>레시피 보기...</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={{ flexDirection: "row", paddingTop: 10 }}>
+                  {dish.ingredients.map(ingredient => <Text style={styles.ingInRecipe}>{ingredient.name}</Text>)}
+                </View>
+              </View>
+            ))}
+
+          </View>
+        </>) :
+        <View style={styles.nullContainer}>
+          <Text>검색 결과가 없습니다</Text>
+        </View>}
+
     </SafeAreaView>
   );
 }
@@ -103,6 +124,11 @@ const styles = StyleSheet.create({
   },
   recipeContainer: {
     marginTop: 15
+  },
+  nullContainer: {
+    flex: 6,
+    justifyContent: "center",
+    alignItems: "center"
   },
   ingInRecipe: {
     borderRadius: 15,

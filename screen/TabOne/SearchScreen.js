@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableOpacity, Dimensions, Modal } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+import { RNCamera } from 'react-native-camera';
+import BarcodeMask from 'react-native-barcode-mask'
+
+const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ navigation }) {
   const [ingredients, setIngredients] = useState([
@@ -99,41 +104,86 @@ export default function SearchScreen({ navigation }) {
   );
 
   const [value, onChangeText] = React.useState("");
+  const [visible, setVisible] = React.useState("false");
+  const [barcode, setBarcode] = "";
 
   const filterList = (list) => {
     return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()));
   }
 
-  const listCat = [...ingredients, ...recipe]
+  const submitEvent = (list) => {
+    if (value === "") {
+      alert("검색어를 입력하세요");
+    } else {
+      const searchResult = Array.from(new Set(filterList(list)));
+      navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe });
+    }
+
+  }
+  const onBarCodeRead = (scanResult) => {
+    setBarcode(scanResult.data);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Search Screen</Text>
-      <TextInput
-        style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1 }}
-        onChangeText={text => onChangeText(text)}
-        value={value} />
-      <FlatList
-        data={filterList(listCat)}
-        keyExtractor={(item, index) => index}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              onPress={() => navigation.navigate(item.type === "ingredients" ? "ResultsScreen" : "IngResultScreen", {
-                results: typeof (item) === "object" ?
-                  Object.values(item) :
-                  item, recipes: recipe
-              })}//여기 수정해야함
-            >
-              <Text>
-                {item.name}
-              </Text>
-            </TouchableOpacity>)
+      <Header />
+      <View style={styles.contentContainer}>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.inputContainer}
+            placeholder="음식 검색"
+            onChangeText={text => onChangeText(text)}
+            onSubmitEditing={() => submitEvent(ingredients)}
+            value={value} />
+          <TouchableOpacity
+            style={styles.mdSearchContainer}
+            onPress={() => submitEvent(ingredients)}
+          >
+            <Ionicons name="md-search" size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            styles={styles.mdBarcodeContainer}
+            onPress={() => {
+              setVisible("true");
+              console.log(visible)
+            }}>
+            <Ionicons name="md-barcode" size={30} />
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          style={styles.filterContainer}
+          data={filterList(ingredients)}
+          keyExtractor={(item, index) => index}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ResultsScreen", {
+                  results: item, recipes: recipe
+                })}
+              >
+                {value === "" ? <View></View> :
+                  <Text>
+                    {item.name}
+                  </Text>}
 
-        }}
-      />
-      <Button title="test" onPress={() => { navigation.navigate('ResultsScreen', { results: ingredients, recipes: recipe }) }} />
-    </SafeAreaView>
+              </TouchableOpacity>)
+
+          }}
+        />
+      </View>
+      <Modal visible={visible} transparent={true} style={styles.modalContainer}>
+        <Text>안녕</Text>
+      </Modal>
+    </SafeAreaView >
   );
+}
+
+const Header = ({ navigation }) => {
+  return (
+    <View style={styles.headerContainer}>
+      <Text>로고</Text>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -142,5 +192,41 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  headerContainer: {
+    flex: 1,
+    marginTop: 20,
+    width: width - 30,
+
+  },
+  searchContainer: {
+    flexDirection: "row",
+    paddingTop: 100,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    width: width - 50,
+  },
+  inputContainer: {
+    flex: 3,
+    fontSize: 25
+  },
+  mdSearchContainer: {
+    flex: 1,
+    alignItems: "flex-end",
+    marginRight: 10
+  },
+  mdBarcodeContainer: {
+    flex: 1,
+
+  },
+  filterContainer: {
+
+  },
+  contentContainer: {
+    flex: 8,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "#000000aa"
   },
 });
