@@ -12,6 +12,35 @@ export default function FavoritesScreen() {
 
         <View style={styles.recipe}>
           <Text style={styles.subtitle}>레시피</Text>
+
+          <View style={styles.cols}>
+
+            <View style={styles.row}>
+              <View style={styles.content}>
+                  <View style ={styles.box}/>
+                  <Text>두부조림</Text>
+              </View>
+              
+              <View style={styles.content}>
+                  <View style ={styles.box}/>
+                  <Text>두부조림</Text>
+              </View>
+            </View>
+            
+            <View style={styles.row}>
+              <View style={styles.content}>
+                  <View style ={styles.box}/>
+                  <Text>두부조림</Text>
+              </View>
+              
+              <View style={styles.content}>
+                  <View style ={styles.box}/>
+                  <Text>두부조림</Text>
+              </View>
+            </View>
+
+          </View>
+
         </View>
         <View style={styles.item}> 
           <Text style={styles.subtitle}>제품</Text>
@@ -38,13 +67,34 @@ const styles = StyleSheet.create({
 
   subtitle: {
     fontSize: 20,  
-  },
-  recipe: {
-    flex: 1,
+  }, 
+
+   content: {
+    width: "47%",  
+    height:"50%",
     backgroundColor:"grey",
+    padding:5,
+    margin:5
+  },
+  box: {
+    width: "100%",  
+    height:"85%",
+    backgroundColor:"black",
   },
 
+
+  recipe: {
+    flex: 1,
+    backgroundColor:"lightgrey",
+  },
   item: {
     flex: 1,
+  },
+
+  row: {
+    flexDirection:"row"
+  },
+  cols: {
+    flexDirection:"column"
   },
 });

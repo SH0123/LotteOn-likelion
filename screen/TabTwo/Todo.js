@@ -4,22 +4,23 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-export default function TodoItem({key,allergy, setallergy}) {
-    console.log(key)
+export default function Checklist({id, checklist, onToggle}) {
     return (
-        <TouchableOpacity  style={styles.row} key = {key} onPressOut={()=>setallergy(key)}>
-            {allergy.check ?(
+        <TouchableOpacity  style={styles.row} onPressOut={onToggle(id)}>
+            {checklist.checked ?(
             <MaterialCommunityIcons size={22} name='checkbox-marked-circle-outline' />
             ):(
             <MaterialCommunityIcons size={22} name='checkbox-blank-circle-outline' />
             )}
-            <Text style={styles.listContent}> {allergy.content}</Text>
+            <Text style={styles.listContent}> {checklist.content}</Text>
       </TouchableOpacity>
     );  
 }
+
 const styles = StyleSheet.create({
     row:{
       flexDirection: "row" , 
+      margin:3,
     }, 
      listContent:{
       color:"black",
