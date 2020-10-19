@@ -17,8 +17,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export const Fonts = {
-  Medium: "GothicA1-Medium",
-  Bold: "GothicA1-Bold",
-  ExtraBold: "GothicA1-ExtraBold"
-};

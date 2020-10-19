@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as Font from 'expo-font';
 
 
-export default function Checklist({id, checklist, onToggle}) {
+Font.loadAsync({
+  'Medium': require('../../assets/fonts/GothicA1-Medium.ttf'),
+});
+
+
+export default function Checklist({id, checklist, onToggle, font}) {
     return (
         <TouchableOpacity  style={styles.row} onPressOut={onToggle(id)}>
             {checklist.checked ?(
@@ -25,7 +31,8 @@ const styles = StyleSheet.create({
      listContent:{
       color:"black",
       fontSize:15,
-      marginTop:2
+    fontFamily:'Medium',
+    marginTop:2,
     },
 
   });

@@ -1,9 +1,18 @@
+import { DrawerContentScrollView } from "@react-navigation/drawer";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { roundToNearestPixel } from "react-native/Libraries/Utilities/PixelRatio";
 import Checklist from "./Checklist";
+import * as Font from 'expo-font';
 
-export default function SettingScreen() {
+// 폰트적용 이게 맞나?
+Font.loadAsync({
+  'Bold': require('../../assets/fonts/GothicA1-Bold.ttf'),
+  'Medium': require('../../assets/fonts/GothicA1-Medium.ttf'),
+});
+
+export default function SettingScreen({ route, navigation }) {
   const [allergyCheck, setallergyCheck] = useState([
     {
       id: 0,
@@ -106,12 +115,23 @@ export default function SettingScreen() {
     );
   };  
   
-  const onToggleEtc = (id) => e=>{
+  // const onToggleEtc = (id) => e=>{
+  //   console.log(" ");    
+  //   route.params.setetcCheck(
+  //     route.params.etcCheck.map(etc =>
+  //        etc.id === id ? {...etc, checked: !etc.checked} : etc,
+  //      ),
+  //    );
+  //    console.log(route.params.etcCheck)
+  //  };
+
+    const onToggleEtc = (id) => e=>{
     setetcCheck(
       etcCheck.map(etc =>
          etc.id === id ? {...etc, checked: !etc.checked} : etc,
        ),
      );
+     console.log(etcCheck);
    };
 
   const [etcCheck, setetcCheck] = useState( [
@@ -135,7 +155,7 @@ export default function SettingScreen() {
 
                                         
       <View style={styles.allergy}>
-        <Text style={{ fontSize: 20 }}>알레르기 </Text>
+        <Text style={styles.subtitle}>알레르기 </Text> 
         <View style={styles.line} />
 
           <View style={styles.row}>
@@ -160,23 +180,29 @@ export default function SettingScreen() {
       </View>
 
       <View style={styles.etc}>
-        <Text style={{ fontSize: 20 }}>추가 옵션</Text>
+        <Text style={styles.subtitle}>추가 옵션</Text>
         <View style={styles.line} />
         {etcCheck.map((etc) => (
           <View style={styles.col} key={etc.id}>
              <Checklist id ={etc.id} checklist = {etc} onToggle={onToggleEtc}/>
           </View>
         ))}
+        {/* {route.params.etcCheck.map((etc) => (
+          <View style={styles.col} key={etc.id}>
+             <Checklist id ={etc.id} checklist = {etc} onToggle={onToggleEtc}/>
+          </View>
+        ))} */}
       </View>
     </SafeAreaView>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     padding: 10,
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff",    
   },
   line: {
     height: 2,
@@ -190,15 +216,21 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: "row",
     justifyContent: "space-between",
+
   },
   title: {
-    fontWeight: "bold",
     fontSize: 30,
+    fontFamily:'Bold'
+  },  
+
+  subtitle: {
+    fontSize: 20,
+    fontFamily:'Medium'
   },
 
   col:{
     flexDirection: "column" , 
-    width:"50%"
+    width:"50%",
   },  
   row:{
     flexDirection: "row" , 

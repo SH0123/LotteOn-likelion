@@ -13,6 +13,7 @@ import {
 
 export default function BottomTabNavigator() {
 
+
   return (
     <BottomTab.Navigator initialRouteName="검색" 
     tabBarOptions={{
@@ -40,6 +41,7 @@ export default function BottomTabNavigator() {
             <Ionicons name="md-person" color={color} size={28} />
           )
         }}
+
       />
      <BottomTab.Screen
         name="즐겨찾기"
