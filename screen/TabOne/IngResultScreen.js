@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -14,11 +14,16 @@ export default function IngResultScreen({ route, navigation }) {
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} name={route.params.product.name} />
             <View style={styles.productContainer}>
-                <Image style={{
-                    width: 300,
-                    height: 200,
-                    resizeMode: 'contain'
-                }} source={route.params.product.uri} />
+                <View style={{ flexDirection: "row" }}>
+                    <Image style={{
+                        width: 300,
+                        height: 200,
+                        resizeMode: 'contain'
+                    }} source={route.params.product.uri} />
+                    <TouchableOpacity style={styles.informationBox}>
+                        <MaterialCommunityIcons name="alert" size={40} />
+                    </TouchableOpacity>
+                </View>
                 <Text style={styles.foodTitle}>{route.params.product.name} ----- {route.params.product.price}원</Text>
             </View>
             <View style={styles.cautionContainer}>

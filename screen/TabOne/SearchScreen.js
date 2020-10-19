@@ -178,12 +178,13 @@ export default function SearchScreen({ navigation }) {
       uri: require("../../images/recipe/양송이스프/양송이스프.jpeg"),
       time: "35분",
       serving: "3 ~ 4인분",
-      allergies: [],
+      allergies: ["우유"],
       feature: [],
       type: "recipe"
     },
   ]
   );
+  const [userAllergy, setUserAllergy] = React.useState(["토마토", "새우", "우유"])
 
   const [value, onChangeText] = React.useState("");
   const [visible, setVisible] = React.useState("false");
@@ -198,7 +199,7 @@ export default function SearchScreen({ navigation }) {
       alert("검색어를 입력하세요");
     } else {
       const searchResult = Array.from(new Set(filterList(list)));
-      navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe, ingredients: ingredients });
+      navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe, ingredients: ingredients, userAllergy: userAllergy });
     }
 
   }
@@ -225,7 +226,6 @@ export default function SearchScreen({ navigation }) {
             styles={styles.mdBarcodeContainer}
             onPress={() => {
               setVisible("true");
-              console.log(visible)
             }}>
             <Ionicons name="md-barcode" size={30} />
           </TouchableOpacity>
@@ -238,7 +238,7 @@ export default function SearchScreen({ navigation }) {
             return (
               <TouchableOpacity
                 onPress={() => navigation.navigate("ResultsScreen", {
-                  results: item, recipes: recipe, ingredients: ingredients
+                  results: item, recipes: recipe, ingredients: ingredients, userAllergy: userAllergy
                 })}
               >
                 {value === "" ? <View></View> :

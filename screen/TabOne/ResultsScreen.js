@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity, ImageBackground, TextInput } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ route, navigation }) {
-  const { recipes } = route.params;
+  const { recipes, userAllergy } = route.params;
 
   if (route.params.results.length === undefined) {//결과 값이 하나인 경우
     var resultsArr = [route.params.results];
@@ -14,11 +14,11 @@ export default function SearchScreen({ route, navigation }) {
 
     var rec = recipes.filter(menu => menu.division === resultsArr[0].division); // 검색한 상품으로 만들 수 있는 레시피
     var recOut = rec.filter(menu => rec.indexOf(menu) < 2); // 화면에 뜰 레시피
-    var recAvail = "true";
+    var recAvail = true;
     if (rec.length === 0) {
-      recAvail = "false"
+      recAvail = false
     }
-    console.log(recAvail)
+
   } else {
     if (route.params.results.length === 0) {//결과 값이 없는 경우
       var resultAvail = false;
@@ -27,17 +27,28 @@ export default function SearchScreen({ route, navigation }) {
       var resultsArr = route.params.results;
       var rec = recipes.filter(menu => menu.division === resultsArr[0].division); // 검색한 상품으로 만들 수 있는 레시피
       var recOut = rec.filter(menu => rec.indexOf(menu) < 2); // 화면에 뜰 레시피 ->array.slice로 대체 가능
-      var recAvail = "true";
+      var recAvail = true;
       if (rec.length === 0) {
-        recAvail = "false"
+        recAvail = false
       }
-      if (!recAvail) { console.log("hello") }
+
     }
+
+  }
+
+  const allergyCheck = (foodArr, userArr) => {
+    let ret = [];
+    for (let i = 0; i < foodArr.length; ++i) {
+      if (userArr.indexOf(foodArr[i]) > -1) {
+        ret.push(foodArr[i]);
+      }
+    }
+    return ret;
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} ingredients={route.params.ingredients} recipe={recipes} />
+      <Header navigation={navigation} ingredients={route.params.ingredients} recipe={recipes} userAllergy={userAllergy} />
       {resultAvail ?
         (<>
           <View style={styles.ingResultContainer}>
@@ -50,14 +61,15 @@ export default function SearchScreen({ route, navigation }) {
                 return (
                   <TouchableOpacity
                     style={styles.ingredientContainer}
-                    onPress={() => navigation.navigate("IngResultScreen", { product: item, recipes: recipes })}
+                    onPress={() => navigation.navigate("IngResultScreen", { product: item, recipes: recipes, userAllergy: userAllergy })}
                   >
                     <ImageBackground style={{
                       width: 150,
                       height: 150,
                       resizeMode: 'contain'
                     }} source={item.uri} />
-                    <Text>{item.name}</Text>
+                    {allergyCheck(item.allergies, userAllergy).length > 0 ? <MaterialCommunityIcons name="alert" color="red" size={40} style={{ position: 'absolute', top: 0, left: 0 }} /> : <></>}
+                    <Text>{item.brand} - {item.name}</Text>
                     <Text>{item.price}원</Text>
                   </TouchableOpacity>
                 )
@@ -70,7 +82,7 @@ export default function SearchScreen({ route, navigation }) {
                 <Text style={styles.textSize}>오늘 이런 요리 어떠세요?</Text>
                 <TouchableOpacity
                   style={{ paddingLeft: 15 }}
-                  onPress={() => { navigation.navigate("RecRecipeScreen", { recipes: rec }) }}
+                  onPress={() => { navigation.navigate("RecRecipeScreen", { recipes: rec, userAllergy: userAllergy }) }}
                 >
                   <Text >레시피 더 보기</Text>
                 </TouchableOpacity>
@@ -82,7 +94,7 @@ export default function SearchScreen({ route, navigation }) {
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text style={styles.textSize}>{dish.name}</Text>
                     <TouchableOpacity
-                      onPress={() => { navigation.navigate("RecipeScreen", { recipe: dish }) }}
+                      onPress={() => { navigation.navigate("RecipeScreen", { recipe: dish, userAllergy: userAllergy }) }}
                     >
                       <Text style={{ paddingLeft: 20 }}>레시피 보기...</Text>
                     </TouchableOpacity>
@@ -93,7 +105,7 @@ export default function SearchScreen({ route, navigation }) {
                 </View>
               ))}
 
-            </View> : <View></View>}
+            </View> : <View style={styles.recipesContainer}></View>}
 
         </>) :
         <View style={styles.nullContainer}>
@@ -104,7 +116,7 @@ export default function SearchScreen({ route, navigation }) {
   );
 }
 
-const Header = ({ navigation, ingredients, recipe }) => {
+const Header = ({ navigation, ingredients, recipe, userAllergy }) => {
 
   const [value, onChangeText] = React.useState("");
 
@@ -117,7 +129,7 @@ const Header = ({ navigation, ingredients, recipe }) => {
       alert("검색어를 입력하세요");
     } else {
       const searchResult = Array.from(new Set(filterList(list)));
-      navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe, ingredients: ingredients });
+      navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe, ingredients: ingredients, userAllergy: userAllergy });
     }
 
   }
@@ -144,7 +156,7 @@ const Header = ({ navigation, ingredients, recipe }) => {
           <Ionicons name="md-barcode" size={30} />
         </TouchableOpacity>
       </View>
-      <FlatList
+      {/* <FlatList
         style={styles.filterContainer}
         data={filterList(ingredients)}
         keyExtractor={(item, index) => String(index)}
@@ -152,7 +164,7 @@ const Header = ({ navigation, ingredients, recipe }) => {
           return (
             <TouchableOpacity
               onPress={() => navigation.navigate("ResultsScreen", {
-                results: item, recipes: recipe, ingredients: ingredients
+                results: item, recipes: recipe, ingredients: ingredients, userAllergy: userAllergy
               })}
             >
               {value === "" ? <View></View> :
@@ -163,7 +175,7 @@ const Header = ({ navigation, ingredients, recipe }) => {
             </TouchableOpacity>)
 
         }}
-      />
+      /> */}
     </View>
   )
 }
