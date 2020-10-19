@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get('window');
 
 export default function RecRecipeScreen({ route, navigation }) {
-    console.log(route)
+
     return (
         <SafeAreaView style={styles.container}>
             <Header />

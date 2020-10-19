@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get('window');
 
 export default function RecipeScreen({ navigation, route }) {
-    console.log(route.params.recipe)
+
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} name={route.params.recipe.name} />
@@ -27,10 +27,10 @@ export default function RecipeScreen({ navigation, route }) {
                         <Ionicons name="md-people" size={40} />
                         <Text>{route.params.recipe.serving}</Text>
                     </View>
-                    <View style={styles.informationBox}>
+                    <TouchableOpacity style={styles.informationBox}>
                         <MaterialCommunityIcons name="alert" size={40} />
                         <Text>{route.params.recipe.allergies}</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.ingredientsContainer}>
                     <View style={styles.ingredientsBox}>
@@ -151,7 +151,8 @@ const styles = StyleSheet.create({
         width: width / 3,
     },
     directionsContainer: {
-        backgroundColor: "skyblue"
+        backgroundColor: "skyblue",
+        width: width - 30
     },
     directionBox: {
         marginTop: 8

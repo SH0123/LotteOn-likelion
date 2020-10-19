@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     headerTitleContainer: {
         justifyContent: "center",
         alignItems: "center",
-        flex: 1,
+        flex: 6,
 
     },
     headerTitle: {
