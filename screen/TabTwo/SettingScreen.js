@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
-import Checklist from "./Todo";
+import Checklist from "./Checklist";
 
 export default function SettingScreen() {
   const [allergyCheck, setallergyCheck] = useState([
@@ -133,14 +131,6 @@ export default function SettingScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
         <Text style={styles.title}>개인설정</Text>
-
-        <TouchableOpacity
-          onPress={() => {}} 
-          activeOpacity={0.3}
-          style={styles.button}
-        >
-          <Text>완료</Text>
-        </TouchableOpacity>
       </View>
 
                                         
@@ -205,18 +195,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 30,
   },
-  button: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    width: 100,
-    height: 40,
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "powderblue",
-    alignItems: "flex-end",
-  },
 
   col:{
     flexDirection: "column" , 
@@ -225,11 +203,6 @@ const styles = StyleSheet.create({
   row:{
     flexDirection: "row" , 
   }, 
-   listContent:{
-    color:"black",
-    fontSize:15,
-    marginTop:2
-  },
 
   allergy: {
     flex: 1.5,

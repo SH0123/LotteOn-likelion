@@ -12,6 +12,7 @@ import {
   const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
+
   return (
     <BottomTab.Navigator initialRouteName="검색" 
     tabBarOptions={{
