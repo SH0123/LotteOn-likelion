@@ -61,7 +61,7 @@ export default function SearchScreen({ route, navigation }) {
                 return (
                   <TouchableOpacity
                     style={styles.ingredientContainer}
-                    onPress={() => navigation.navigate("IngResultScreen", { product: item, recipes: recipes, userAllergy: userAllergy })}
+                    onPress={() => navigation.navigate("IngResultScreen", { product: item, recipes: recipes, allergyChecking: allergyCheck(item.allergies, userAllergy) })}
                   >
                     <ImageBackground style={{
                       width: 150,

@@ -6,7 +6,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get('window');
 
 export default function IngResultScreen({ route, navigation }) {
-    const { recipes } = route.params;
+    const { recipes, allergyChecking } = route.params;
+    console.log(route.params)
 
     const rec = recipes.filter(menu => menu.division === route.params.product.division);
 
@@ -20,9 +21,12 @@ export default function IngResultScreen({ route, navigation }) {
                         height: 200,
                         resizeMode: 'contain'
                     }} source={route.params.product.uri} />
-                    <TouchableOpacity style={styles.informationBox}>
-                        <MaterialCommunityIcons name="alert" size={40} />
-                    </TouchableOpacity>
+                    {allergyChecking.length > 0 ? <TouchableOpacity style={{ marginLeft: 5 }}>
+                        <MaterialCommunityIcons name="alert" size={40} color="red" />
+                    </TouchableOpacity> : <TouchableOpacity style={{ marginLeft: 5 }}>
+                            <MaterialCommunityIcons name="adjust" size={40} color="green" />
+                        </TouchableOpacity>}
+
                 </View>
                 <Text style={styles.foodTitle}>{route.params.product.name} ----- {route.params.product.price}원</Text>
             </View>

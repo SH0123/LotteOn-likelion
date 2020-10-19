@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get('window');
 
 export default function RecRecipeScreen({ route, navigation }) {
+    const { userAllergy } = route.params;
 
     return (
         <SafeAreaView style={styles.container}>
@@ -19,7 +20,7 @@ export default function RecRecipeScreen({ route, navigation }) {
                         return (
                             <TouchableOpacity
                                 style={styles.ingredientContainer}
-                                onPress={() => navigation.navigate("RecipeScreen", { recipe: item })}
+                                onPress={() => navigation.navigate("RecipeScreen", { recipe: item, userAllergy: userAllergy })}
                             >
                                 <ImageBackground style={{
                                     width: 300,

@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get('window');
 
 export default function RecipeScreen({ navigation, route }) {
-
+    const { userAllergy } = route.params;
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} name={route.params.recipe.name} />
@@ -27,10 +27,16 @@ export default function RecipeScreen({ navigation, route }) {
                         <Ionicons name="md-people" size={40} />
                         <Text>{route.params.recipe.serving}</Text>
                     </View>
-                    <TouchableOpacity style={styles.informationBox}>
-                        <MaterialCommunityIcons name="alert" size={40} />
-                        <Text>{route.params.recipe.allergies}</Text>
-                    </TouchableOpacity>
+                    {userAllergy.length > 0 ?
+                        <TouchableOpacity style={styles.informationBox}>
+                            <MaterialCommunityIcons name="alert" size={40} color="red" />
+                            <Text>{route.params.recipe.allergies}</Text>
+                        </TouchableOpacity> :
+                        <TouchableOpacity style={styles.informationBox}>
+                            <MaterialCommunityIcons name="adjust" size={40} color="green" />
+                            <Text>{route.params.recipe.allergies}</Text>
+                        </TouchableOpacity>}
+
                 </View>
                 <View style={styles.ingredientsContainer}>
                     <View style={styles.ingredientsBox}>
