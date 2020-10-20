@@ -1,121 +1,208 @@
+import { DrawerContentScrollView } from "@react-navigation/drawer";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { roundToNearestPixel } from "react-native/Libraries/Utilities/PixelRatio";
+import Checklist from "./Checklist";
+import * as Font from 'expo-font';
 
-export default function SettingScreen() {
+// 폰트적용 이게 맞나?
+Font.loadAsync({
+  'Bold': require('../../assets/fonts/GothicA1-Bold.ttf'),
+  'Medium': require('../../assets/fonts/GothicA1-Medium.ttf'),
+});
+
+export default function SettingScreen({ route, navigation }) {
   const [allergyCheck, setallergyCheck] = useState([
     {
+      id: 0,
       content: "우유",
-      check: false,
+      checked: false,
     },
     {
-      content: "콩",
-      check: false,
+      id: 1,
+      content: "땅콩",
+      checked: false,
     },
     {
+      id: 2,
       content: "밀",
-      check: false,
+      checked: false,
     },
     {
-      content: "달걀",
-      check: false,
+      id: 3,
+      content: "난류",
+      checked: false,
     },
     {
+      id: 4,
       content: "돼지고기",
-      check: false,
+      checked: false,
     },
     {
-      content: "견과류",
-      check: false,
+      id: 5,
+      content: "새우",
+      checked: false,
+    },
+    {
+      id: 6,
+      content: "메밀",
+      checked: false,
+    },
+    {
+      id: 7,
+      content: "토마토",
+      checked: false,
+    },
+    {
+      id: 8,
+      content: "대두",
+      checked: false,
+    },
+    {
+      id: 9,
+      content: "복숭아",
+      checked: false,
+    },
+    {
+      id: 10,
+      content: "고등어",
+      checked: false,
+    },
+    {
+      id: 11,
+      content: "게",
+      checked: false,
+    },
+    {
+      id: 12,
+      content: "아황산류",
+      checked: false,
+    },
+    {
+      id: 13,
+      content: "호두",
+      checked: false,
+    },
+    {
+      id: 14,
+      content: "닭고기",
+      checked: false,
+    },
+    {
+      id: 15,
+      content: "쇠고기",
+      checked: false,
+    },
+    {
+      id: 16,
+      content: "오징어",
+      checked: false,
+    },
+    {
+      id: 17,
+      content: "조개류",
+      checked: false,
     },
   ]);
+  
 
-  const setallergy  = (key)=>{
-    const newAllergy = allergyCheck;
-    newAllergy[key].check = !newAllergy[key].check;
-    setallergyCheck(newAllergy);
-    console.log(allergyCheck[key].check);
-  }
+  const onToggle = (id) => e=>{
+   setallergyCheck(
+    allergyCheck.map(allergy =>
+        allergy.id === id ? {...allergy, checked: !allergy.checked} : allergy,
+      ),
+    );
+  };  
+  
+  // const onToggleEtc = (id) => e=>{
+  //   console.log(" ");    
+  //   route.params.setetcCheck(
+  //     route.params.etcCheck.map(etc =>
+  //        etc.id === id ? {...etc, checked: !etc.checked} : etc,
+  //      ),
+  //    );
+  //    console.log(route.params.etcCheck)
+  //  };
+
+    const onToggleEtc = (id) => e=>{
+    setetcCheck(
+      etcCheck.map(etc =>
+         etc.id === id ? {...etc, checked: !etc.checked} : etc,
+       ),
+     );
+     console.log(etcCheck);
+   };
 
   const [etcCheck, setetcCheck] = useState( [
     {
+      id:0,
       content: "할랄",
-      check: false,
+      checked: false,
     },
     {
+      id:1,
       content: "비건",
-      check: false,
+      checked: false,
     },
   ]);
-
-  const setEtc  = (key)=>{
-    const newEtc = etcCheck;
-    newEtc[key].check = !etcCheck[key].check;
-    console.log(etcCheck[key].check);
-    return (setetcCheck(newEtc));
-  }
-
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
         <Text style={styles.title}>개인설정</Text>
-
-        <TouchableOpacity
-          onPress={() => {}}
-          activeOpacity={0.3}
-          style={styles.button}
-        >
-          <Text>완료</Text>
-        </TouchableOpacity>
       </View>
 
                                         
       <View style={styles.allergy}>
-        <Text style={{ fontSize: 20 }}>알레르기 </Text>
+        <Text style={styles.subtitle}>알레르기 </Text> 
         <View style={styles.line} />
 
-        {allergyCheck.map((allergy, key) => (
-          <View  style={styles.col}  key={key}>
-             <TouchableOpacity  style={styles.row} onPressOut={() => setallergy(key)}>
-              {allergy.check ?(
-                <MaterialCommunityIcons size={22} name='checkbox-marked-circle-outline' />
-              ):(
-                <MaterialCommunityIcons size={22} name='checkbox-blank-circle-outline' />
-              )}
-              <Text style={styles.listContent}> {allergy.content}</Text>
-            </TouchableOpacity>
+          <View style={styles.row}>
+            <View style={styles.col}>
+              {allergyCheck.map((allergy) => (
+                <View  style={styles.col} key = {allergy.id}>
+                  {allergy.id <8 &&(<Checklist id ={allergy.id} checklist = {allergy}  onToggle={onToggle}/>
+                  )}
+                </View>
+              ))}
+            </View>
+            <View style={styles.col}>
+              {allergyCheck.map((allergy) => (
+                <View  style={styles.col} key = {allergy.id}>
+                  {allergy.id >8 &&(<Checklist id ={allergy.id} checklist = {allergy}  onToggle={onToggle}/>
+                  )}
+                </View>
+              ))}
+            </View>
           </View>
-        ))}
+
       </View>
 
       <View style={styles.etc}>
-        <Text style={{ fontSize: 20 }}>추가 옵션</Text>
+        <Text style={styles.subtitle}>추가 옵션</Text>
         <View style={styles.line} />
-        {etcCheck.map((etc, key) => (
-          <View style={styles.col} key={key}>
-             <TouchableOpacity style={styles.row} onPressOut={() => setEtc(key)}>
-              {etc.check ?(
-                <MaterialCommunityIcons size={22} name='checkbox-marked-circle-outline' />
-                ):(
-                  <MaterialCommunityIcons size={22} name='checkbox-blank-circle-outline' />
-                )}
-              <Text style={styles.listContent}> {etc.content}</Text>
-            </TouchableOpacity>
+        {etcCheck.map((etc) => (
+          <View style={styles.col} key={etc.id}>
+             <Checklist id ={etc.id} checklist = {etc} onToggle={onToggleEtc}/>
           </View>
         ))}
+        {/* {route.params.etcCheck.map((etc) => (
+          <View style={styles.col} key={etc.id}>
+             <Checklist id ={etc.id} checklist = {etc} onToggle={onToggleEtc}/>
+          </View>
+        ))} */}
       </View>
     </SafeAreaView>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     padding: 10,
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff",    
   },
   line: {
     height: 2,
@@ -129,39 +216,28 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: "row",
     justifyContent: "space-between",
+
   },
   title: {
-    fontWeight: "bold",
     fontSize: 30,
-  },
-  button: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    width: 100,
-    height: 40,
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "powderblue",
-    alignItems: "flex-end",
+    fontFamily:'Bold'
+  },  
+
+  subtitle: {
+    fontSize: 20,
+    fontFamily:'Medium'
   },
 
   col:{
     flexDirection: "column" , 
-    marginTop:5,
+    width:"50%",
   },  
   row:{
     flexDirection: "row" , 
   }, 
-   listContent:{
-    color:"black",
-    fontSize:15,
-    marginTop:2
-  },
 
   allergy: {
-    flex: 1,
+    flex: 1.5,
   },
   etc: {
     flex: 1,

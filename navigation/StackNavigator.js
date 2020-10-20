@@ -1,5 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
+import  { useState } from "react";
+
 
 import SearchScreen from "../screen/TabOne/SearchScreen";
 import ResultsScreen from "../screen/TabOne/ResultsScreen";
@@ -50,12 +52,26 @@ export function TabOneNavigator() {
 const TabTwoStack = createStackNavigator();
 
 export function TabTwoNavigator() {
+  const [etcCheck, setetcCheck] = useState( [
+    {
+      id:0,
+      content: "할랄",
+      checked: false,
+    },
+    {
+      id:1,
+      content: "비건",
+      checked: false,
+    },
+  ]);
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
         name="TabTwoScreen"
         component={SettingScreen}
         options={navOptionHandler}
+        initialParams ={{etcCheck:etcCheck, setetcCheck : setetcCheck}}
+
       />
     </TabTwoStack.Navigator>
 
