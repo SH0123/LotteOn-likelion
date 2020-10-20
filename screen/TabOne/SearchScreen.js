@@ -244,14 +244,14 @@ export default function SearchScreen({ navigation }) {
             style={styles.mdSearchContainer}
             onPress={() => submitEvent(ingredients)}
           >
-            <Ionicons name="md-search" size={30} />
+            <Ionicons name="md-search" size={30} color="#dd2d2d" />
           </TouchableOpacity>
           <TouchableOpacity
             styles={styles.mdBarcodeContainer}
             onPress={() => {
               setVisible(true);
             }}>
-            <Ionicons name="md-barcode" size={30} />
+            <Ionicons name="md-barcode" size={30} color="#dd2d2d" />
           </TouchableOpacity>
         </View>
         <FlatList
@@ -321,6 +321,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderBottomWidth: 1,
     width: width - 50,
+
   },
   inputContainer: {
     flex: 9,
