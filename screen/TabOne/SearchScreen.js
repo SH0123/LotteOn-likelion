@@ -77,9 +77,9 @@ export default function SearchScreen({ navigation }) {
       relatedRecipes: [""],
       brand: "매일",
       price: "3,150",
-      warnings: ["구매시 유통기한을 꼭 확인해주세요.", "날카로운 물건으로 개봉하싥ㅇ우 우유팩까지 그어져 제품이 손상될 수 있으니 주의하셔서 개봉 부탁드립니다."],
+      warnings: ["구매시 유통기한을 꼭 확인해주세요.", "날카로운 물건으로 개봉하실경우 우유팩까지 그어져 제품이 손상될 수 있으니 주의하셔서 개봉 부탁드립니다."],
       uri: require("../../images/ingredients/락토프리우유.jpeg"),
-      feature: [],
+      feature: ["락토프리우유"],
       crossReaction: [],
       allergies: [],
       type: "ingredients"
@@ -109,9 +109,9 @@ export default function SearchScreen({ navigation }) {
       price: "4,980",
       warnings: ["별도 주의 사항 없음"],
       uri: require("../../images/ingredients/오감양송이.jpg"),
-      feature: [],
+      feature: ["없음"],
       crossReaction: [],
-      allergies: [],
+      allergies: ["양송이 버섯"],
       type: "ingredients"
     },
   ]
@@ -128,7 +128,7 @@ export default function SearchScreen({ navigation }) {
       uri: require("../../images/recipe/두부조림/두부조림.jpeg"),
       time: "30분",
       serving: "2인분",
-      allergies: ["두부"],
+      allergies: ["두부", "굴"],
       feature: ["비건"],
       type: "recipe"
     },
@@ -143,7 +143,7 @@ export default function SearchScreen({ navigation }) {
       uri: require("../../images/recipe/두부찌개/두부찌개.jpeg"),
       time: "30분",
       serving: "2인분",
-      allergies: ["두부"],
+      allergies: ["두부", "고등어", "대두", "새우"],
       feature: ["비건"],
       type: "recipe"
     },
@@ -158,7 +158,7 @@ export default function SearchScreen({ navigation }) {
       uri: require("../../images/recipe/두부두루치기/두부두루치기.jpeg"),
       time: "30분",
       serving: "2인분",
-      allergies: ["두부"],
+      allergies: ["두부", "돼지고기"],
       feature: ["비건"],
       type: "recipe"
     },
@@ -178,7 +178,7 @@ export default function SearchScreen({ navigation }) {
       uri: require("../../images/recipe/양송이스프/양송이스프.jpeg"),
       time: "35분",
       serving: "3 ~ 4인분",
-      allergies: ["우유"],
+      allergies: ["우유", "양송이 버섯"],
       feature: [],
       type: "recipe"
     },
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 10,
     width: width - 30,
 
   },

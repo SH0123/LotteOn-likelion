@@ -61,7 +61,7 @@ export default function SearchScreen({ route, navigation }) {
                 return (
                   <TouchableOpacity
                     style={styles.ingredientContainer}
-                    onPress={() => navigation.navigate("IngResultScreen", { product: item, recipes: recipes, allergyChecking: allergyCheck(item.allergies, userAllergy) })}
+                    onPress={() => navigation.navigate("IngResultScreen", { product: item, recipes: recipes, userAllergy: userAllergy, allergyChecking: allergyCheck(item.allergies, userAllergy) })}
                   >
                     <ImageBackground style={{
                       width: 150,
@@ -69,7 +69,8 @@ export default function SearchScreen({ route, navigation }) {
                       resizeMode: 'contain'
                     }} source={item.uri} />
                     {allergyCheck(item.allergies, userAllergy).length > 0 ? <MaterialCommunityIcons name="alert" color="red" size={40} style={{ position: 'absolute', top: 0, left: 0 }} /> : <></>}
-                    <Text>{item.brand} - {item.name}</Text>
+                    <Text>{item.brand}</Text>
+                    <Text>{item.name}</Text>
                     <Text>{item.price}원</Text>
                   </TouchableOpacity>
                 )
@@ -84,7 +85,7 @@ export default function SearchScreen({ route, navigation }) {
                   style={{ paddingLeft: 15 }}
                   onPress={() => { navigation.navigate("RecRecipeScreen", { recipes: rec, userAllergy: userAllergy }) }}
                 >
-                  <Text >레시피 더 보기</Text>
+                  <Text >요리 더 보기</Text>
                 </TouchableOpacity>
 
               </View>
@@ -189,7 +190,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 10,
     width: width - 30,
     flexDirection: "row",
     alignItems: "center"

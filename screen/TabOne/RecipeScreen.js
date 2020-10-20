@@ -1,12 +1,35 @@
 import React, { useState } from 'react';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, Text, View, Button, ScrollView, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, Image, Dimensions, TouchableOpacity, Modal } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get('window');
 
 export default function RecipeScreen({ navigation, route }) {
     const { userAllergy } = route.params;
+    const { allergies, feature } = route.params.recipe;
+
+    const [visible, setVisible] = React.useState(false);
+
+    const allergyCheck = (foodArr, userArr) => {
+        let ret = [];
+        for (let i = 0; i < foodArr.length; ++i) {
+            if (userArr.indexOf(foodArr[i]) > -1) {
+                ret.push(foodArr[i]);
+            }
+        }
+        return ret;
+    }
+
+    const extraAllergy = (foodArr, userArr) => {
+        let ret = [];
+        for (let i = 0; i < foodArr.length; ++i) {
+            if (userArr.indexOf(foodArr[i]) === -1) {
+                ret.push(foodArr[i]);
+            }
+        }
+        return ret;
+    }
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} name={route.params.recipe.name} />
@@ -27,14 +50,20 @@ export default function RecipeScreen({ navigation, route }) {
                         <Ionicons name="md-people" size={40} />
                         <Text>{route.params.recipe.serving}</Text>
                     </View>
-                    {userAllergy.length > 0 ?
-                        <TouchableOpacity style={styles.informationBox}>
+                    {allergyCheck(allergies, userAllergy).length > 0 ?
+                        <TouchableOpacity
+                            style={styles.informationBox}
+                            onPress={() => setVisible(true)}
+                        >
                             <MaterialCommunityIcons name="alert" size={40} color="red" />
-                            <Text>{route.params.recipe.allergies}</Text>
+                            <Text>눌러보기</Text>
                         </TouchableOpacity> :
-                        <TouchableOpacity style={styles.informationBox}>
+                        <TouchableOpacity
+                            style={styles.informationBox}
+                            onPress={() => setVisible(true)}
+                        >
                             <MaterialCommunityIcons name="adjust" size={40} color="green" />
-                            <Text>{route.params.recipe.allergies}</Text>
+                            <Text>눌러보기</Text>
                         </TouchableOpacity>}
 
                 </View>
@@ -68,6 +97,31 @@ export default function RecipeScreen({ navigation, route }) {
                     })}
                 </View>
             </ScrollView>
+            <Modal visible={visible} transparent={true}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalMain}>
+                        {allergyCheck(allergies, userAllergy).length > 0 ?
+                            <View>
+                                <Text>사용자가 조심해야 할 알러지 유발 항목</Text>
+                                {allergyCheck(allergies, userAllergy).map(allergy => <Text>{allergy}</Text>)}
+                                <Text>기타 알러지 유발 항목</Text>
+                                {extraAllergy(allergies, allergyCheck(allergies, userAllergy)).map(allergy => <Text>{allergy}</Text>)}
+                                <Text>기타 음식 특징</Text>
+                                <Text>{feature}</Text>
+                                <Button onPress={() => setVisible(false)} title="확인" />
+                            </View>
+                            :
+                            <View>
+                                <Text>알러지 유발 항목</Text>
+                                {allergies.map(allergy => <Text>{allergy}</Text>)}
+                                <Text>기타 음식 특징</Text>
+                                <Text>{feature}</Text>
+                                <Button onPress={() => setVisible(false)} title="확인" />
+                            </View>
+                        }
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaView>
     );
 }
@@ -169,5 +223,14 @@ const styles = StyleSheet.create({
     },
     boxText: {
         paddingVertical: 2
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: "#000000aa"
+    },
+    modalMain: {
+        backgroundColor: "white",
+        marginTop: 100,
+        margin: 50
     }
 });

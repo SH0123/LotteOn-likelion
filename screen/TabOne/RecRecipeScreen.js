@@ -40,7 +40,7 @@ export default function RecRecipeScreen({ route, navigation }) {
 const Header = ({ navigation }) => {
     return (
         <View style={styles.headerContainer}>
-            <Image source={require("../../images/로고.png")} style={{ height: 100, width: 100 }} />
+            <Image source={require("../../images/로고.png")} style={{ height: 90, width: 90 }} />
         </View>
     )
 }
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         flex: 1,
-        marginTop: 20,
+        marginTop: 10,
         width: width - 30,
     },
     ingResultContainer: {
