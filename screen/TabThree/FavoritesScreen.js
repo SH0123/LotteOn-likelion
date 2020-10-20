@@ -1,12 +1,15 @@
-import React from 'react';
+
+
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
- 
+
+import React, { useState } from 'react';
 
 export default function FavoritesScreen() {
 
 
   return (
+
     <SafeAreaView style={styles.container}>
         <View style={styles.top}>
           <Text  style={styles.title}>즐겨찾기</Text>
@@ -48,8 +51,11 @@ export default function FavoritesScreen() {
           <Text style={styles.subtitle}>제품</Text>
         </View>
     </SafeAreaView>
+
   );
-}
+};
+
+
 
 const styles = StyleSheet.create({
   container: {
