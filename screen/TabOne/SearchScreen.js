@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableOpacity, Dimensions, Modal, Image } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -12,7 +12,7 @@ export default function SearchScreen({ navigation }) {
 
       division: "두부",
       name: "풀무원 두부",
-      barcodeNumber: "110003",
+      barcodeNumber: "8801114111154",
       relatedRecipes: ["두부조림", "두부찌개"],
       brand: "풀무원",
       price: "3,830",
@@ -27,7 +27,7 @@ export default function SearchScreen({ navigation }) {
 
       division: "두부",
       name: "cj 모닝 두부",
-      barcodeNumber: "1100034",
+      barcodeNumber: "8801007069883",
       relatedRecipes: ["두부조림", "두부 두루치기"],
       brand: "cj",
       price: "1,200",
@@ -42,7 +42,7 @@ export default function SearchScreen({ navigation }) {
 
       division: "카레",
       name: "카레여왕 구운마늘&양파",
-      barcodeNumber: "",
+      barcodeNumber: "8801052739991",
       relatedRecipes: [],
       brand: "청정원",
       price: "2,380",
@@ -57,7 +57,7 @@ export default function SearchScreen({ navigation }) {
 
       division: "김치",
       name: "새콤달콤 맛있는 볶음김치",
-      barcodeNumber: "",
+      barcodeNumber: "8801024053667",
       relatedRecipes: [],
       brand: "종가집",
       price: "1,380",
@@ -73,7 +73,7 @@ export default function SearchScreen({ navigation }) {
       division: "우유",
       name: "소화가 잘되는 우유 오리지널",
       barcodeNumber: "",
-      relatedRecipes: [""],
+      relatedRecipes: ["8801121102398"],
       brand: "매일",
       price: "3,150",
       warnings: ["구매시 유통기한을 꼭 확인해주세요.", "날카로운 물건으로 개봉하실경우 우유팩까지 그어져 제품이 손상될 수 있으니 주의하셔서 개봉 부탁드립니다."],
@@ -87,7 +87,7 @@ export default function SearchScreen({ navigation }) {
 
       division: "밀키트",
       name: "비비고 버섯 야채죽",
-      barcodeNumber: "",
+      barcodeNumber: "8801007745718",
       relatedRecipes: [],
       brand: "cj",
       price: "3,480",
@@ -102,7 +102,7 @@ export default function SearchScreen({ navigation }) {
 
       division: "양송이버섯",
       name: "GAP 충남 오감 양송이",
-      barcodeNumber: "",
+      barcodeNumber: "0430000320967",
       relatedRecipes: ["양송이 스프"],
       brand: "오감",
       price: "4,980",
@@ -187,11 +187,36 @@ export default function SearchScreen({ navigation }) {
 
   const [value, onChangeText] = React.useState("");
   const [visible, setVisible] = React.useState(false);
-  const [barcode, setBarcode] = "";
+  const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [barcode, setBarcode] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    setBarcode(data);
+    setVisible(false);
+    onChangeText(data);
+    setScanned(false);
+  };
+
+  if (hasPermission === null) {
+    return <Text>Requesting for camera permission</Text>;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
 
   const filterList = (list) => {
-    return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()));
+    return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()) ||
+      listItem.barcode === value);
   }
 
   const submitEvent = (list) => {
@@ -202,10 +227,6 @@ export default function SearchScreen({ navigation }) {
       navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe, ingredients: ingredients, userAllergy: userAllergy });
     }
   }
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-  };
 
 
   return (
@@ -254,18 +275,21 @@ export default function SearchScreen({ navigation }) {
           }}
         />
       </View>
-      <Modal visible={visible} transparent={true} style={styles.modalContainer}>
-        <View style={styles.modalMain}>
-          <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+      {visible ? <Modal style={{
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}>
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+        <Button title="go back" onPress={() => setVisible(false)} />
 
-          />
-          <Button
-            title="검색"
-            onPress={() => setVisible(false)}
-          />
-        </View>
-      </Modal>
+      </Modal> :
+        <></>
+      }
+
     </SafeAreaView >
   );
 }
@@ -323,7 +347,7 @@ const styles = StyleSheet.create({
   },
   modalMain: {
     backgroundColor: "white",
-    marginTop: 100,
+    marginTop: 200,
     margin: 50
   }
 });

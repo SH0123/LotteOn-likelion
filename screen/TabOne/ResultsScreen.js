@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity, ImageBackground, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity, ImageBackground, TextInput, Modal, Button } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 const { width, height } = Dimensions.get('window');
 
@@ -119,6 +120,33 @@ export default function SearchScreen({ route, navigation }) {
 const Header = ({ navigation, ingredients, recipe, userAllergy }) => {
 
   const [value, onChangeText] = React.useState("");
+  const [visible, setVisible] = React.useState(false);
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
+  const [barcode, setBarcode] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    setBarcode(data);
+    setVisible(false);
+    onChangeText(data);
+    setScanned(false);
+  };
+
+  if (hasPermission === null) {
+    return <Text>Requesting for camera permission</Text>;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
 
   const filterList = (list) => {
     return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()));
@@ -152,28 +180,28 @@ const Header = ({ navigation, ingredients, recipe, userAllergy }) => {
         </TouchableOpacity>
         <TouchableOpacity
           styles={styles.mdBarcodeContainer}
+          onPress={() => setVisible(true)}
         >
           <Ionicons name="md-barcode" size={30} />
         </TouchableOpacity>
       </View>
-      {/* <FlatList
-        style={styles.filterContainer}
-        data={filterList(ingredients)}
-        keyExtractor={(item, index) => String(index)}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ResultsScreen", {
-                results: item, recipes: recipe, ingredients: ingredients, userAllergy: userAllergy
-              })}
-            >
-              {value === "" ? <View></View> :
-                <Text>
-                  {item.name}
-                </Text>}
-            </TouchableOpacity>)
-        }}
-      /> */}
+      {visible ? <Modal style={{
+        position: "absolute",
+        width: width,
+        height: height,
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}>
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+        <Button title="go back" onPress={() => setVisible(false)} />
+      </Modal> :
+        <></>
+      }
+
     </View>
   )
 }
