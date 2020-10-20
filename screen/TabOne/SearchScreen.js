@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableOpacity, Dimensions, Modal, Image } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { RNCamera } from 'react-native-camera';
-import BarcodeMask from 'react-native-barcode-mask'
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 const { width, height } = Dimensions.get('window');
 
@@ -187,8 +186,9 @@ export default function SearchScreen({ navigation }) {
   const [userAllergy, setUserAllergy] = React.useState(["토마토", "새우", "우유"])
 
   const [value, onChangeText] = React.useState("");
-  const [visible, setVisible] = React.useState("false");
+  const [visible, setVisible] = React.useState(false);
   const [barcode, setBarcode] = "";
+  const [scanned, setScanned] = useState(false);
 
   const filterList = (list) => {
     return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()));
@@ -201,8 +201,11 @@ export default function SearchScreen({ navigation }) {
       const searchResult = Array.from(new Set(filterList(list)));
       navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe, ingredients: ingredients, userAllergy: userAllergy });
     }
-
   }
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
 
 
   return (
@@ -225,7 +228,7 @@ export default function SearchScreen({ navigation }) {
           <TouchableOpacity
             styles={styles.mdBarcodeContainer}
             onPress={() => {
-              setVisible("true");
+              setVisible(true);
             }}>
             <Ionicons name="md-barcode" size={30} />
           </TouchableOpacity>
@@ -252,7 +255,16 @@ export default function SearchScreen({ navigation }) {
         />
       </View>
       <Modal visible={visible} transparent={true} style={styles.modalContainer}>
-        <Text>안녕</Text>
+        <View style={styles.modalMain}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+
+          />
+          <Button
+            title="검색"
+            onPress={() => setVisible(false)}
+          />
+        </View>
       </Modal>
     </SafeAreaView >
   );
@@ -309,4 +321,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000000aa"
   },
+  modalMain: {
+    backgroundColor: "white",
+    marginTop: 100,
+    margin: 50
+  }
 });

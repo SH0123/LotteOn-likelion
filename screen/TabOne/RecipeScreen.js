@@ -63,7 +63,7 @@ export default function RecipeScreen({ navigation, route }) {
                             onPress={() => setVisible(true)}
                         >
                             <MaterialCommunityIcons name="adjust" size={40} color="green" />
-                            <Text>눌러보기</Text>
+                            <Text>상세정보</Text>
                         </TouchableOpacity>}
 
                 </View>

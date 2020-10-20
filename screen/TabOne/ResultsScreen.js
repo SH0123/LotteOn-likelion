@@ -6,7 +6,7 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ route, navigation }) {
-  const { recipes, userAllergy } = route.params;
+  const { recipes, userAllergy, ingredients } = route.params;
 
   if (route.params.results.length === undefined) {//결과 값이 하나인 경우
     var resultsArr = [route.params.results];
@@ -48,7 +48,7 @@ export default function SearchScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} ingredients={route.params.ingredients} recipe={recipes} userAllergy={userAllergy} />
+      <Header navigation={navigation} ingredients={ingredients} recipe={recipes} userAllergy={userAllergy} />
       {resultAvail ?
         (<>
           <View style={styles.ingResultContainer}>
@@ -112,7 +112,6 @@ export default function SearchScreen({ route, navigation }) {
         <View style={styles.nullContainer}>
           <Text>검색 결과가 없습니다</Text>
         </View>}
-
     </SafeAreaView>
   );
 }
@@ -172,9 +171,7 @@ const Header = ({ navigation, ingredients, recipe, userAllergy }) => {
                 <Text>
                   {item.name}
                 </Text>}
-
             </TouchableOpacity>)
-
         }}
       /> */}
     </View>
@@ -252,5 +249,11 @@ const styles = StyleSheet.create({
   },
   textSize: {
     fontSize: 22
+  },
+  filterContainer: {
+    position: "absolute",
+    backgroundColor: "#fff",
+    left: 110,
+    top: 70
   }
 });
