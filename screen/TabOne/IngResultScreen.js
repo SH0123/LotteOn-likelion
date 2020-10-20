@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, FlatList, 
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get('window');
-
+ 
 export default function IngResultScreen({ route, navigation }) {
     const { recipes, allergyChecking, userAllergy } = route.params;
     const { allergies, feature } = route.params.product;
