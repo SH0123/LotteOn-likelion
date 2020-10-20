@@ -1,53 +1,127 @@
 import React, { useState } from 'react';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, Text, View, Button, ScrollView, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, Image, Dimensions, TouchableOpacity, Modal } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get('window');
 
 export default function RecipeScreen({ navigation, route }) {
-    console.log(route.params.recipe)
+    const { userAllergy } = route.params;
+    const { allergies, feature } = route.params.recipe;
+
+    const [visible, setVisible] = React.useState(false);
+
+    const allergyCheck = (foodArr, userArr) => {
+        let ret = [];
+        for (let i = 0; i < foodArr.length; ++i) {
+            if (userArr.indexOf(foodArr[i]) > -1) {
+                ret.push(foodArr[i]);
+            }
+        }
+        return ret;
+    }
+
+    const extraAllergy = (foodArr, userArr) => {
+        let ret = [];
+        for (let i = 0; i < foodArr.length; ++i) {
+            if (userArr.indexOf(foodArr[i]) === -1) {
+                ret.push(foodArr[i]);
+            }
+        }
+        return ret;
+    }
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} name={route.params.recipe.name} />
             <ScrollView>
-                <View>
+                <View style={styles.imageContainer}>
                     <Image style={{
                         width: 300,
                         height: 200,
                         resizeMode: 'contain'
-                    }} source={{ uri: route.params.recipe.uri }} />
+                    }} source={route.params.recipe.uri} />
                 </View>
                 <View style={styles.informationContainer}>
-                    <View>
+                    <View style={styles.informationBox}>
                         <MaterialIcons name="timer" size={40} />
+                        <Text>{route.params.recipe.time}</Text>
                     </View>
-                    <View>
+                    <View style={styles.informationBox}>
                         <Ionicons name="md-people" size={40} />
+                        <Text>{route.params.recipe.serving}</Text>
                     </View>
-                    <View>
-                        <MaterialCommunityIcons name="alert" size={40} />
-                    </View>
+                    {allergyCheck(allergies, userAllergy).length > 0 ?
+                        <TouchableOpacity
+                            style={styles.informationBox}
+                            onPress={() => setVisible(true)}
+                        >
+                            <MaterialCommunityIcons name="alert" size={40} color="red" />
+                            <Text>눌러보기</Text>
+                        </TouchableOpacity> :
+                        <TouchableOpacity
+                            style={styles.informationBox}
+                            onPress={() => setVisible(true)}
+                        >
+                            <MaterialCommunityIcons name="adjust" size={40} color="green" />
+                            <Text>상세정보</Text>
+                        </TouchableOpacity>}
+
                 </View>
                 <View style={styles.ingredientsContainer}>
                     <View style={styles.ingredientsBox}>
-                        <Text>재료</Text>
+                        <Text style={styles.boxTitle}>재료</Text>
                         {route.params.recipe.ingredients.map(
-                            ingredient => <Text>{ingredient.name} ------- {ingredient.quantity}</Text>)
+                            ingredient => <Text style={styles.boxText}>{ingredient.name} ------- {ingredient.quantity}</Text>)
                         }
                     </View>
                     <View style={styles.seasoningBox}>
-                        <Text>양념</Text>
+                        <Text style={styles.boxTitle}>양념</Text>
                         {route.params.recipe.seasoning.map(
-                            ingredient => <Text>{ingredient.name} ------- {ingredient.quantity}</Text>)
+                            ingredient => <Text style={styles.boxText}>{ingredient.name} ------- {ingredient.quantity}</Text>)
                         }
                     </View>
                 </View>
                 <View style={styles.directionsContainer}>
-                    <Text>조리 순서</Text>
-                    
+                    <Text style={styles.boxTitle}>조리 순서</Text>
+                    {route.params.recipe.directions.map((direction, index) => {
+                        return (
+                            <View style={styles.directionBox}>
+                                <Text style={styles.boxText}>{index + 1}. {direction.order}</Text>
+                                <Image style={{
+                                    width: 300,
+                                    height: 200,
+                                    resizeMode: 'contain'
+                                }} source={direction.uri} />
+                            </View>
+                        )
+                    })}
                 </View>
             </ScrollView>
+            <Modal visible={visible} transparent={true}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalMain}>
+                        {allergyCheck(allergies, userAllergy).length > 0 ?
+                            <View>
+                                <Text>사용자가 조심해야 할 알러지 유발 항목</Text>
+                                {allergyCheck(allergies, userAllergy).map(allergy => <Text>{allergy}</Text>)}
+                                <Text>기타 알러지 유발 항목</Text>
+                                {extraAllergy(allergies, allergyCheck(allergies, userAllergy)).map(allergy => <Text>{allergy}</Text>)}
+                                <Text>기타 음식 특징</Text>
+                                <Text>{feature}</Text>
+                                <Button onPress={() => setVisible(false)} title="확인" />
+                            </View>
+                            :
+                            <View>
+                                <Text>알러지 유발 항목</Text>
+                                {allergies.map(allergy => <Text>{allergy}</Text>)}
+                                <Text>기타 음식 특징</Text>
+                                <Text>{feature}</Text>
+                                <Button onPress={() => setVisible(false)} title="확인" />
+                            </View>
+                        }
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaView>
     );
 }
@@ -84,7 +158,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingBottom: 10
+        paddingBottom: 10,
+        paddingTop: 20
+
     },
     headerLeft: {
         flex: 1,
@@ -105,12 +181,21 @@ const styles = StyleSheet.create({
         marginRight: 15,
         alignItems: "flex-end"
     },
+    imageContainer: {
+        alignItems: "center"
+    },
     informationContainer: {
         flexDirection: "row",
         marginHorizontal: 50,
         justifyContent: "space-between",
-        backgroundColor: "yellow"
+        backgroundColor: "yellow",
+        paddingVertical: 10
     },
+    informationBox: {
+
+        alignItems: "center"
+    }
+    ,
     ingredientsContainer: {
         flexDirection: "row",
         width: width - 30,
@@ -126,6 +211,26 @@ const styles = StyleSheet.create({
         width: width / 3,
     },
     directionsContainer: {
-        backgroundColor: "skyblue"
+        backgroundColor: "skyblue",
+        width: width - 30
+    },
+    directionBox: {
+        marginTop: 8
+    },
+    boxTitle: {
+        fontSize: 20,
+        paddingVertical: 10
+    },
+    boxText: {
+        paddingVertical: 2
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: "#000000aa"
+    },
+    modalMain: {
+        backgroundColor: "white",
+        marginTop: 100,
+        margin: 50
     }
 });

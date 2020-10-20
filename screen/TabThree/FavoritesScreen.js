@@ -1,14 +1,19 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
+
 
 export default function FavoritesScreen() {
+
+
   return (
-    <View style={styles.container}>
-      <Text>Favorites Screen</Text>
-      
+
+    <View>
+
     </View>
   );
-}
+};
+
+
 
 const styles = StyleSheet.create({
   container: {
