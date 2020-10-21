@@ -3,11 +3,14 @@ import { StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity, 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ route, navigation }) {
   const { recipes, userAllergy, ingredients } = route.params;
+  const [data, setData] = React.useState();
+  const [loading, setLoading] = React.useState(true);
 
   if (route.params.results.length === undefined) {//결과 값이 하나인 경우
     var resultsArr = [route.params.results];
@@ -37,6 +40,15 @@ export default function SearchScreen({ route, navigation }) {
 
   }
 
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then((response) => response.json())
+      .then((json) => setData(json))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
+
+
   const allergyCheck = (foodArr, userArr) => {
     let ret = [];
     for (let i = 0; i < foodArr.length; ++i) {
@@ -46,7 +58,7 @@ export default function SearchScreen({ route, navigation }) {
     }
     return ret;
   }
-
+  console.log(data)
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} ingredients={ingredients} recipe={recipes} userAllergy={userAllergy} />

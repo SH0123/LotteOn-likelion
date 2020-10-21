@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
+
 const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ navigation }) {
@@ -119,11 +120,11 @@ export default function SearchScreen({ navigation }) {
     {
       division: "두부",
       name: "두부조림",
-      ingredients: [{ name: "재료 1", quantity: "1" }, { name: "재료 2", quantity: "2" }, { name: "재료 3", quantity: "3" }],
-      seasoning: [{ name: "양념 1", quantity: "1" }, { name: "양념 2", quantity: "2" }],
-      directions: [{ order: "1번 순서", uri: require("../../images/recipe/두부조림/1.jpeg") },
-      { order: "2번 순서", uri: require("../../images/recipe/두부조림/2.jpeg") },
-      { order: "3번 순서", uri: require("../../images/recipe/두부조림/3.jpeg") }],
+      ingredients: [{ name: "두부", quantity: "1모" }, { name: "다시마 육수", quantity: "1/2컵" }, { name: "다진 마늘", quantity: "1/2스푼" }, { name: "맛술", quantity: "1스푼" }],
+      seasoning: [{ name: "소금", quantity: "한꼬집" }, { name: "고춧가루", quantity: "1스푼" }, { name: "설탕", quantity: "1/2스푼" }, { name: "진간장", quantity: "3스푼" }],
+      directions: [{ order: "두부 4등분 하고 나서 3등분 또 해서 썰고 소금 밑간 하기", uri: require("../../images/recipe/두부조림/1.jpeg") },
+      { order: "고춧가루1, 다진마늘 0.5, 다진대파 넉넉히, 설탕 0.5, 진간장 3, 맛술1, 참기름으로 양념장 만들기", uri: require("../../images/recipe/두부조림/2.jpeg") },
+      { order: "두부 부치고 양념장과 함께 조리기", uri: require("../../images/recipe/두부조림/3.jpeg") }],
       uri: require("../../images/recipe/두부조림/두부조림.jpeg"),
       time: "30분",
       serving: "2인분",
@@ -134,11 +135,11 @@ export default function SearchScreen({ navigation }) {
     {
       division: "두부",
       name: "두부찌개",
-      ingredients: [{ name: "재료 1", quantity: "1" }, { name: "재료 2", quantity: "2" }, { name: "재료 3", quantity: "3" }],
-      seasoning: [{ name: "양념 1", quantity: 1 }, { name: "양념 2", quantity: 2 }],
-      directions: [{ order: "1번 순서", uri: require("../../images/recipe/두부조림/1.jpeg") },
-      { order: "2번 순서", uri: require("../../images/recipe/두부조림/2.jpeg") },
-      { order: "3번 순서", uri: require("../../images/recipe/두부조림/3.jpeg") }],
+      ingredients: [{ name: "두부", quantity: "1모" }, { name: "애호박", quantity: "1/2개" }, { name: "양파", quantity: "1개" }, { name: "느타리버섯", quantity: "한줌" }, { name: "대파", quantity: "1대" }, { name: "청양고추", quantity: "1개" }],
+      seasoning: [{ name: "고추장", quantity: "1큰술" }, { name: "새우젓", quantity: "2큰술" }, { name: "고춧가루", quantity: "1큰술" }, { name: "물", quantity: "1큰술" }, { name: "다진마늘", quantity: "1큰술" }, { name: "멸치육수", quantity: "1팩" }],
+      directions: [{ order: "간편하게 멸치 육수 팩 1개로 육수를 우려냅니다.", uri: require("../../images/recipe/두부찌개/1.jpeg") },
+      { order: "고추장, 새우젓, 고춧가루, 물, 다진마늘을 준비한 만큼 넣고 찌개양념을 만듭니다.", uri: require("../../images/recipe/두부찌개/2.jpg") },
+      { order: "두부를 잘라서 냄비에 깔아준뒤, 느타리버섯, 청양고추, 대파와 함께 뜨거운 육수를 부어주고 찌개양념을 넣어서 끓여줍니다. ", uri: require("../../images/recipe/두부찌개/3.jpg") }],
       uri: require("../../images/recipe/두부찌개/두부찌개.jpeg"),
       time: "30분",
       serving: "2인분",
@@ -266,7 +267,7 @@ export default function SearchScreen({ navigation }) {
                 })}
               >
                 {value === "" ? <View></View> :
-                  <Text>
+                  <Text style={{ paddingVertical: 5, borderBottomWidth: 1, fontSize: 15 }}>
                     {item.name}
                   </Text>}
 

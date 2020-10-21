@@ -56,7 +56,7 @@ export default function RecipeScreen({ navigation, route }) {
                             onPress={() => setVisible(true)}
                         >
                             <MaterialCommunityIcons name="alert" size={40} color="red" />
-                            <Text>눌러보기</Text>
+                            <Text>상세정보</Text>
                         </TouchableOpacity> :
                         <TouchableOpacity
                             style={styles.informationBox}
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     headerTitleContainer: {
         justifyContent: "center",
         alignItems: "center",
-        flex: 1,
+        flex: 6,
 
     },
     headerTitle: {
