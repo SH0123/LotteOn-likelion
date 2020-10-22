@@ -9,8 +9,7 @@ const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ route, navigation }) {
   const { recipes, userAllergy, ingredients } = route.params;
-  const [data, setData] = React.useState();
-  const [loading, setLoading] = React.useState(true);
+
 
   if (route.params.results.length === undefined) {//결과 값이 하나인 경우
     var resultsArr = [route.params.results];
@@ -40,13 +39,6 @@ export default function SearchScreen({ route, navigation }) {
 
   }
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
-  }, []);
 
 
   const allergyCheck = (foodArr, userArr) => {
@@ -58,7 +50,7 @@ export default function SearchScreen({ route, navigation }) {
     }
     return ret;
   }
-  console.log(data)
+
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} ingredients={ingredients} recipe={recipes} userAllergy={userAllergy} />
@@ -149,7 +141,6 @@ const Header = ({ navigation, ingredients, recipe, userAllergy }) => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    setBarcode(data);
     setVisible(false);
     onChangeText(data);
     setScanned(false);
@@ -164,7 +155,8 @@ const Header = ({ navigation, ingredients, recipe, userAllergy }) => {
 
 
   const filterList = (list) => {
-    return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()));
+    return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()) ||
+      listItem.barcodeNumber === (value));
   }
 
   const submitEvent = (list) => {

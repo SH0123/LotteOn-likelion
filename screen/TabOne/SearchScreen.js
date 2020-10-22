@@ -73,8 +73,8 @@ export default function SearchScreen({ navigation }) {
 
       division: "우유",
       name: "소화가 잘되는 우유 오리지널",
-      barcodeNumber: "",
-      relatedRecipes: ["8801121102398"],
+      barcodeNumber: "8801121102398",
+      relatedRecipes: "",
       brand: "매일",
       price: "3,150",
       warnings: ["구매시 유통기한을 꼭 확인해주세요.", "날카로운 물건으로 개봉하실경우 우유팩까지 그어져 제품이 손상될 수 있으니 주의하셔서 개봉 부탁드립니다."],
@@ -184,13 +184,15 @@ export default function SearchScreen({ navigation }) {
     },
   ]
   );
-  const [userAllergy, setUserAllergy] = React.useState(["토마토", "새우", "우유"])
+  const [userAllergy, setUserAllergy] = React.useState()
 
   const [value, onChangeText] = React.useState("");
   const [visible, setVisible] = React.useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [barcode, setBarcode] = useState("");
+  const [data, setData] = React.useState();
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     (async () => {
@@ -199,9 +201,19 @@ export default function SearchScreen({ navigation }) {
     })();
   }, []);
 
+  useEffect(() => {
+    fetch('http://runanam.pythonanywhere.com/allergy/')
+      .then((response) => response.json())
+      .then((json) => json.map(i => console.log(i.checked)))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+
+
+  }, []);
+
+
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    setBarcode(data);
     setVisible(false);
     onChangeText(data);
     setScanned(false);
@@ -217,7 +229,7 @@ export default function SearchScreen({ navigation }) {
 
   const filterList = (list) => {
     return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()) ||
-      listItem.barcode === value);
+      listItem.barcodeNumber === (value));
   }
 
   const submitEvent = (list) => {
@@ -229,6 +241,7 @@ export default function SearchScreen({ navigation }) {
     }
   }
 
+  console.log(data)
 
   return (
     <SafeAreaView style={styles.container}>
