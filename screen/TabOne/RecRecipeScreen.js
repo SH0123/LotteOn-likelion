@@ -12,9 +12,12 @@ export default function RecRecipeScreen({ route, navigation }) {
             <Header />
 
             <View style={styles.ingResultContainer}>
-                <Text style={styles.textSize}>검색결과</Text>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.textSize}>이런 요리는 어떠세요?</Text>
+                </View>
                 <FlatList
                     data={route.params.recipes}
+                    style={styles.flatContainer}
                     renderItem={({ item }) => {
 
                         return (
@@ -27,7 +30,7 @@ export default function RecRecipeScreen({ route, navigation }) {
                                     height: 200,
                                     resizeMode: 'contain'
                                 }} source={item.uri} />
-                                <Text>{item.name}</Text>
+                                <Text style={{ textSize: 20, marginTop: 5 }}>{item.name}</Text>
                             </TouchableOpacity>
                         )
                     }}
@@ -57,16 +60,25 @@ const styles = StyleSheet.create({
         marginTop: 10,
         width: width - 30,
     },
+    flatContainer: {
+        marginTop: 20,
+
+    },
     ingResultContainer: {
-        backgroundColor: "yellow",
+        alignItems: "center",
         width: width - 30,
         flex: 6
     },
     ingredientContainer: {
-        backgroundColor: "pink",
+
         marginRight: 30,
         marginTop: 20,
         alignItems: "center"
     },
-
+    textSize: {
+        fontSize: 22
+    },
+    titleContainer: {
+        alignItems: "center"
+    }
 });

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, FlatList, 
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get('window');
- 
+
 export default function IngResultScreen({ route, navigation }) {
     const { recipes, allergyChecking, userAllergy } = route.params;
     const { allergies, feature } = route.params.product;
@@ -32,22 +32,22 @@ export default function IngResultScreen({ route, navigation }) {
                         resizeMode: 'contain'
                     }} source={route.params.product.uri} />
                     {allergyChecking.length > 0 ? <TouchableOpacity
-                        style={{ marginLeft: 5, alignItems: "center" }}
+                        style={{ position: "absolute" }}
                         onPress={() => { setVisible(true) }}
                     >
                         <MaterialCommunityIcons name="alert" size={40} color="#dd2d2d" />
-                        <Text>상세정보</Text>
                     </TouchableOpacity> : <TouchableOpacity
-                        style={{ marginLeft: 5, alignItems: "center" }}
+                        style={{ position: "absolute" }}
                         onPress={() => { setVisible(true) }}
                     >
                             <MaterialCommunityIcons name="adjust" size={40} color="green" />
-                            <Text>상세정보</Text>
                         </TouchableOpacity>}
 
                 </View>
-                <Text>{route.params.product.brand}</Text>
-                <Text>{route.params.product.name}</Text>
+                <View style={{ flexDirection: "row", marginTop: 10 }}>
+                    <Text style={{ fontWeight: "bold", fontSize: 18 }}>{route.params.product.brand} </Text>
+                    <Text style={{ fontSize: 18 }}>{route.params.product.name}</Text>
+                </View>
                 <Text style={styles.foodTitle}>{route.params.product.price}원</Text>
             </View>
             <View style={styles.cautionContainer}>
@@ -75,7 +75,7 @@ export default function IngResultScreen({ route, navigation }) {
                                             resizeMode: 'contain',
 
                                         }} source={item.uri} />
-                                        <Text>{item.name}</Text>
+                                        <Text style={{ fontSize: 16 }}>{item.name}</Text>
                                     </TouchableOpacity>
                                 )
                             }}
@@ -90,21 +90,21 @@ export default function IngResultScreen({ route, navigation }) {
                     <View style={styles.modalMain}>
                         {allergyChecking.length > 0 ?
                             <View>
-                                <Text>사용자가 조심해야 할 알러지 유발 항목</Text>
-                                {allergyChecking.map(allergy => <Text>{allergy}</Text>)}
-                                <Text>기타 알러지 유발 항목</Text>
-                                {extraAllergy(allergies, allergyChecking).map(allergy => <Text>{allergy}</Text>)}
-                                <Text>기타 음식 특징</Text>
-                                <Text>{feature}</Text>
-                                <Button onPress={() => setVisible(false)} title="확인" />
+                                <Text style={styles.modalTitle}>사용자가 조심해야 할 알러지 유발 항목</Text>
+                                {allergyChecking.map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                <Text style={styles.modalTitle}>기타 알러지 유발 항목</Text>
+                                {extraAllergy(allergies, allergyChecking).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                <Text style={styles.modalTitle}>기타 음식 특징</Text>
+                                <Text style={styles.modalContent}>{feature}</Text>
+                                <Button onPress={() => setVisible(false)} title="확인" color="#dd2d2d" />
                             </View>
                             :
                             <View>
-                                <Text>알러지 유발 항목</Text>
-                                {allergies.map(allergy => <Text>{allergy}</Text>)}
-                                <Text>기타 음식 특징</Text>
-                                <Text>{feature}</Text>
-                                <Button onPress={() => setVisible(false)} title="확인" />
+                                <Text style={styles.modalTitle}>알러지 유발 항목</Text>
+                                {allergies.map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                <Text style={styles.modalTitle}>기타 음식 특징</Text>
+                                <Text style={styles.modalContent}>{feature}</Text>
+                                <Button onPress={() => setVisible(false)} title="확인" color="#dd2d2d" />
                             </View>
                         }
                     </View>
@@ -170,20 +170,23 @@ const styles = StyleSheet.create({
         alignItems: "flex-end"
     },
     productContainer: {
-        backgroundColor: "yellow",
+        borderBottomWidth: 1,
+        borderBottomColor: "grey",
         width: width - 30,
         alignItems: "center",
         flex: 4
     },
     cautionContainer: {
-        backgroundColor: "pink",
+        borderBottomWidth: 1,
+        borderBottomColor: "grey",
         width: width - 30,
         flex: 2,
-        paddingTop: 15
+        paddingTop: 15,
+
     },
     recomContainer: {
         width: width - 30,
-        backgroundColor: "skyblue",
+
         flex: 2,
         paddingTop: 15
     },
@@ -191,14 +194,16 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     recomDetail: {
-        marginRight: 30
+        marginRight: 30,
+        alignItems: "center"
     },
     foodTitle: {
-        fontSize: 20,
-        color: "red"
+        fontSize: 21,
+        color: "red",
+        marginTop: 5
     },
     cautionText: {
-        fontSize: 20,
+        fontSize: 19,
         marginTop: 5
     },
     subtitleText: {
@@ -212,5 +217,14 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         marginTop: 100,
         margin: 50
+    },
+    modalTitle: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginTop: 5
+    },
+    modalContent: {
+        fontSize: 15,
+        marginTop: 5
     }
 });

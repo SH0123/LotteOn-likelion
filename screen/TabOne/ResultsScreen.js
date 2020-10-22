@@ -82,9 +82,12 @@ export default function SearchScreen({ route, navigation }) {
                       resizeMode: 'contain'
                     }} source={item.uri} />
                     {allergyCheck(item.allergies, userAllergy).length > 0 ? <MaterialCommunityIcons name="alert" color="red" size={40} style={{ position: 'absolute', top: 0, left: 0 }} /> : <></>}
-                    <Text>{item.brand}</Text>
-                    <Text>{item.name}</Text>
-                    <Text>{item.price}원</Text>
+                    <View style={{ flexDirection: "row", fontSize: 15 }}>
+                      <Text style={{ fontWeight: "bold" }}>{item.brand} </Text>
+                      <Text>{item.name}</Text>
+                    </View>
+
+                    <Text style={{ fontWeight: "bold", fontSize: 20, marginTop: 5 }}>{item.price}원</Text>
                   </TouchableOpacity>
                 )
               }}
@@ -123,7 +126,7 @@ export default function SearchScreen({ route, navigation }) {
 
         </>) :
         <View style={styles.nullContainer}>
-          <Text>검색 결과가 없습니다</Text>
+          <Text style={{ fontSize: 20 }}>검색 결과가 없습니다</Text>
         </View>}
     </SafeAreaView>
   );
@@ -256,17 +259,18 @@ const styles = StyleSheet.create({
 
   },
   ingResultContainer: {
-    backgroundColor: "yellow",
+    borderBottomWidth: 1,
+    borderBottomColor: "grey",
     width: width - 30,
     flex: 3
   },
   ingredientContainer: {
-    backgroundColor: "pink",
+
     marginRight: 30,
-    marginTop: 10
+    marginTop: 30
   },
   recipesContainer: {
-    backgroundColor: "skyblue",
+
     width: width - 30,
     flex: 3,
     paddingTop: 20
@@ -285,7 +289,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 5,
     marginRight: 10,
-    backgroundColor: "#7FFFD4"
+    backgroundColor: "#FFB6C1",
+    borderColor: "#FFB6C1",
+
   },
   textSize: {
     fontSize: 22
