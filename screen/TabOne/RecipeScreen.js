@@ -106,21 +106,39 @@ export default function RecipeScreen({ navigation, route }) {
                     <View style={styles.modalMain}>
                         {allergyCheck(allergies, userAllergy).length > 0 ?
                             <View>
-                                <Text style={styles.modalTitle}>사용자가 조심해야 할 알러지 유발 항목</Text>
-                                {allergyCheck(allergies, userAllergy).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
-                                <Text style={styles.modalTitle}>기타 알러지 유발 항목</Text>
-                                {extraAllergy(allergies, allergyCheck(allergies, userAllergy)).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1 }}>
+                                    <Text style={styles.modalTitle}>사용자가 조심해야 할 알러지 유발 항목</Text>
+                                    {allergyCheck(allergies, userAllergy).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                </View>
+                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1 }}>
+                                    <Text style={styles.modalTitle}>기타 알러지 유발 항목</Text>
+                                    {extraAllergy(allergies, allergyCheck(allergies, userAllergy)).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                </View>
                                 <Text style={styles.modalTitle}>기타 음식 특징</Text>
                                 <Text style={styles.modalContent}>{feature}</Text>
-                                <Button onPress={() => setVisible(false)} title="확인" color="#dd2d2d" />
+                                <TouchableOpacity
+                                    onPress={() => setVisible(false)}
+                                    style={{ borderRadius: 25, backgroundColor: "#dd2d2d", padding: 10, borderColor: "black", alignItems: "center" }}
+                                >
+
+                                    <Text style={{ color: "white" }}>확인</Text>
+                                </TouchableOpacity>
                             </View>
                             :
                             <View>
-                                <Text style={styles.modalTitle}>알러지 유발 항목</Text>
-                                {allergies.map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1 }}>
+                                    <Text style={styles.modalTitle}>알러지 유발 항목</Text>
+                                    {allergies.map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                </View>
                                 <Text style={styles.modalTitle}>기타 음식 특징</Text>
                                 <Text style={styles.modalContent}>{feature}</Text>
-                                <Button onPress={() => setVisible(false)} title="확인" color="#dd2d2d" />
+                                <TouchableOpacity
+                                    onPress={() => setVisible(false)}
+                                    style={{ borderRadius: 25, backgroundColor: "#dd2d2d", padding: 10, borderColor: "black", alignItems: "center" }}
+                                >
+
+                                    <Text style={{ color: "white" }}>확인</Text>
+                                </TouchableOpacity>
                             </View>
                         }
                     </View>
@@ -233,12 +251,16 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         flex: 1,
-        backgroundColor: "#000000aa"
+        backgroundColor: "#000000aa",
+        alignItems: "center"
     },
     modalMain: {
         backgroundColor: "white",
         marginTop: 100,
-        margin: 50
+        margin: 50,
+        borderRadius: 25,
+        padding: 10,
+        width: width - 70
     },
     modalTitle: {
         fontSize: 18,
@@ -247,6 +269,7 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         fontSize: 15,
-        marginTop: 5
+        marginTop: 5,
+        marginBottom: 10
     }
 });

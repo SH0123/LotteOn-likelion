@@ -184,7 +184,7 @@ export default function SearchScreen({ navigation }) {
     },
   ]
   );
-  const [userAllergy, setUserAllergy] = React.useState()
+  const [userAllergy, setUserAllergy] = React.useState("우유")
 
   const [value, onChangeText] = React.useState("");
   const [visible, setVisible] = React.useState(false);
