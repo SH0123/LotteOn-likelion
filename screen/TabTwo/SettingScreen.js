@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Modal, Dimensions, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {Feather} from "@expo/vector-icons";
 import Checklist from "./Checklist";
 import * as Font from 'expo-font';
-import projects from '../../apis/projects'
+import projects from '../../apis/projects';
+import {FontAwesome} from "@expo/vector-icons";
+
+const {width, height} = Dimensions.get('window');
 
 Font.loadAsync({
   'ExtraBold': require('../../assets/fonts/GothicA1-ExtraBold.ttf'),
@@ -13,7 +16,7 @@ Font.loadAsync({
 });
 
 export default function SettingScreen({ route, navigation }) {
-
+  const[visible, setVisible] = React.useState(false);
   const [allergyCheck, setallergyCheck] = useState([]);
   const [etcCheck, setetcCheck] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -41,32 +44,22 @@ export default function SettingScreen({ route, navigation }) {
         allergy.id === id ? {...allergy, checked: !allergy.checked} : allergy,
       ),
     );
-    
-    //가져오는건 잘되는데
-    // fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}`) 
-    // .then((response) => response.json())
-    // .then((json) => console.log(json))
-    // .catch((error) => console.error(error))
-    console.log(!allergyCheck[id-1].checked);
-    console.log(allergyCheck[id-1].content);
-    console.log(id);
-    //왜 보내는게 안될까
-    fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}`,{
-      method:'PATCH',
+
+    fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}/`,{
+      method:'PUT',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({
-        id: id,
+        id:id,
         content:allergyCheck[id-1].content,
         checked: !allergyCheck[id-1].checked
-      }),
+      }),      
     })
-
-    .then((response) => response.json())
-  //   .then((responseJson) => {
-  //     alert(responseJson)
-  //  })
+    .then((res) => res.json())
+    .then((response) => console.log("Success: ", JSON.stringify(response)))
    .catch((error) => {
     console.error(error)
    });   
@@ -80,16 +73,43 @@ export default function SettingScreen({ route, navigation }) {
         etc.id === id ? {...etc, checked: !etc.checked} : etc,
       ),
     );
+    
+    fetch(`http://runanam.pythonanywhere.com/etc/update/${id}/`,{
+      method:'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        id:id,
+        content:etcCheck[id-1].content,
+        checked: !etcCheck[id-1].checked
+      }),      
+    })
+    .then((res) => res.json())
+    .then((response) => console.log("Success: ", JSON.stringify(response)))
+   .catch((error) => {
+    console.error(error)
+   });   
   };
 
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
-        <View style={{justifyContent: "center"}}>
-        <Feather name="settings" size={28}/>
+        <View style={{ flexDirection: "row"}}>
+          <View style={{justifyContent: "center"}}>
+            <Feather name="settings" size={28}/>
+          </View>
+          <Text style={styles.title}>개인설정</Text>
         </View>
-        <Text style={styles.title}>개인설정</Text>
+        <TouchableOpacity 
+        style={styles.questionContainer}
+        onPress={()=>setVisible(true)}
+        >
+          <FontAwesome name="question-circle-o" size={30} color="#A9A9A9"/>
+        </TouchableOpacity>
       </View>
 
                                         
@@ -136,6 +156,29 @@ export default function SettingScreen({ route, navigation }) {
           </View>
         ))}
       </View>
+      <Modal visible={visible} transparent={true}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalMain}>
+            <View style={styles.modalHeader}>
+              <Text>알러지 유발 식품별 대체 식품</Text>
+            </View>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>우유   ->   두유</Text>
+              <Text style={styles.modalText}>콩   ->   김, 미역, 멸치</Text>
+              <Text style={styles.modalText}>밀   ->   감자, 쌀</Text>
+              <Text style={styles.modalText}>달걀   ->   두부, 콩나물</Text>
+              <Text style={styles.modalText}>돼지고기   ->   쇠고기, 흰살생선</Text>
+              <Text style={styles.modalText}>생선   ->   두부, 달걀, 쇠고기, 닭고기</Text>
+            </View>
+            <TouchableOpacity
+            onPress={()=>setVisible(false)}
+            style={styles.buttonContainer}
+            >
+              <Text style={{color: "white"}}>확인</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -164,7 +207,8 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: "row",
     marginBottom:10,
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   title: {
     fontSize: 30,
@@ -195,4 +239,40 @@ const styles = StyleSheet.create({
   etc: {
     flex: 1,
   },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "#000000aa",
+    alignItems: "center"
+  },
+  modalMain: {
+    backgroundColor: "white",
+    marginTop: 100,
+    margin: 50,
+    borderRadius: 25,
+    padding: 10,
+    width : width - 55
+  },
+  modalHeader:{
+    padding: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomColor: "#DCDCDC",
+    borderBottomWidth: 1
+  },
+  modalContent: {
+    padding: 10
+  },
+  modalText: {
+    margin: 5
+  },
+  questionContainer: {
+    marginRight: 10
+  },
+  buttonContainer: {
+    borderRadius: 25,
+    backgroundColor: "#dd2d2d",
+    padding: 10,
+    borderColor: "black",
+    alignItems: "center"
+  }
 });
