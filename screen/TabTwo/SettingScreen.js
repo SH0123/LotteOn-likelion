@@ -105,16 +105,16 @@ export default function SettingScreen({ route, navigation }) {
       checked: false,
     },
   ]);
-  
 
-  const onToggle = (id) => e=>{
-   setallergyCheck(
-    allergyCheck.map(allergy =>
-        allergy.id === id ? {...allergy, checked: !allergy.checked} : allergy,
+
+  const onToggle = (id) => e => {
+    setallergyCheck(
+      allergyCheck.map(allergy =>
+        allergy.id === id ? { ...allergy, checked: !allergy.checked } : allergy,
       ),
     );
-  };  
-  
+  };
+
   // const onToggleEtc = (id) => e=>{
   //   console.log(" ");    
   //   route.params.setetcCheck(
@@ -125,23 +125,23 @@ export default function SettingScreen({ route, navigation }) {
   //    console.log(route.params.etcCheck)
   //  };
 
-    const onToggleEtc = (id) => e=>{
+  const onToggleEtc = (id) => e => {
     setetcCheck(
       etcCheck.map(etc =>
-         etc.id === id ? {...etc, checked: !etc.checked} : etc,
-       ),
-     );
-     console.log(etcCheck);
-   };
+        etc.id === id ? { ...etc, checked: !etc.checked } : etc,
+      ),
+    );
+    console.log(etcCheck);
+  };
 
-  const [etcCheck, setetcCheck] = useState( [
+  const [etcCheck, setetcCheck] = useState([
     {
-      id:0,
+      id: 0,
       content: "할랄",
       checked: false,
     },
     {
-      id:1,
+      id: 1,
       content: "비건",
       checked: false,
     },
@@ -153,29 +153,29 @@ export default function SettingScreen({ route, navigation }) {
         <Text style={styles.title}>개인설정</Text>
       </View>
 
-                                        
+
       <View style={styles.allergy}>
-        <Text style={styles.subtitle}>알레르기 </Text> 
+        <Text style={styles.subtitle}>알레르기 </Text>
         <View style={styles.line} />
 
-          <View style={styles.row}>
-            <View style={styles.col}>
-              {allergyCheck.map((allergy) => (
-                <View  style={styles.col} key = {allergy.id}>
-                  {allergy.id <8 &&(<Checklist id ={allergy.id} checklist = {allergy}  onToggle={onToggle}/>
-                  )}
-                </View>
-              ))}
-            </View>
-            <View style={styles.col}>
-              {allergyCheck.map((allergy) => (
-                <View  style={styles.col} key = {allergy.id}>
-                  {allergy.id >8 &&(<Checklist id ={allergy.id} checklist = {allergy}  onToggle={onToggle}/>
-                  )}
-                </View>
-              ))}
-            </View>
+        <View style={styles.row}>
+          <View style={styles.col}>
+            {allergyCheck.map((allergy) => (
+              <View style={styles.col} key={allergy.id}>
+                {allergy.id < 8 && (<Checklist id={allergy.id} checklist={allergy} onToggle={onToggle} />
+                )}
+              </View>
+            ))}
           </View>
+          <View style={styles.col}>
+            {allergyCheck.map((allergy) => (
+              <View style={styles.col} key={allergy.id}>
+                {allergy.id > 8 && (<Checklist id={allergy.id} checklist={allergy} onToggle={onToggle} />
+                )}
+              </View>
+            ))}
+          </View>
+        </View>
 
       </View>
 
@@ -184,7 +184,7 @@ export default function SettingScreen({ route, navigation }) {
         <View style={styles.line} />
         {etcCheck.map((etc) => (
           <View style={styles.col} key={etc.id}>
-             <Checklist id ={etc.id} checklist = {etc} onToggle={onToggleEtc}/>
+            <Checklist id={etc.id} checklist={etc} onToggle={onToggleEtc} />
           </View>
         ))}
         {/* {route.params.etcCheck.map((etc) => (
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     flex: 1,
-    backgroundColor: "#fff",    
+    backgroundColor: "#fff",
   },
   line: {
     height: 2,
@@ -220,21 +220,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily:'Bold'
-  },  
+    fontFamily: 'Bold'
+  },
 
   subtitle: {
     fontSize: 20,
-    fontFamily:'Medium'
+    fontFamily: 'Medium'
   },
 
-  col:{
-    flexDirection: "column" , 
-    width:"50%",
-  },  
-  row:{
-    flexDirection: "row" , 
-  }, 
+  col: {
+    flexDirection: "column",
+    width: "50%",
+  },
+  row: {
+    flexDirection: "row",
+  },
 
   allergy: {
     flex: 1.5,

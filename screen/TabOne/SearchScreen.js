@@ -108,7 +108,7 @@ export default function SearchScreen({ navigation }) {
       brand: "오감",
       price: "4,980",
       warnings: ["별도 주의 사항 없음"],
-      uri: require("../../images/ingredients/오감양송이.jpg"),
+      uri: require("../../images/ingredients/오감양송이.png"),
       feature: ["없음"],
       crossReaction: [],
       allergies: ["양송이 버섯"],
@@ -187,7 +187,7 @@ export default function SearchScreen({ navigation }) {
     },
   ]
   );
-  const [userAllergy, setUserAllergy] = React.useState("우유")
+  const [userAllergy, setUserAllergy] = React.useState()
 
   const [value, onChangeText] = React.useState("");
   const [visible, setVisible] = React.useState(false);
@@ -207,12 +207,13 @@ export default function SearchScreen({ navigation }) {
   useEffect(() => {
     fetch('http://runanam.pythonanywhere.com/allergy/')
       .then((response) => response.json())
-      .then((json) => json.map(i => console.log(i.checked)))
+      .then((json) => json.filter(i => i.checked === true))
+      .then(arr => arr.map(index => index.content))
+      .then(allergies => setUserAllergy(allergies))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-
-
   }, []);
+
 
 
   const handleBarCodeScanned = ({ type, data }) => {
@@ -244,7 +245,6 @@ export default function SearchScreen({ navigation }) {
     }
   }
 
-  console.log(data)
 
   return (
     <SafeAreaView style={styles.container}>

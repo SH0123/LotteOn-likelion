@@ -106,7 +106,10 @@ export default function RecipeScreen({ navigation, route }) {
                     <View style={styles.modalMain}>
                         {allergyCheck(allergies, userAllergy).length > 0 ?
                             <View>
-                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 5 }}>
+                                <View style={styles.modalHeader}>
+                                    <Text>알러지 및 기타 정보</Text>
+                                </View>
+                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 20 }}>
                                     <View style={{ flexDirection: "row" }}>
                                         <View style={{ justifyContent: "center" }}>
                                             <MaterialCommunityIcons name="alert" size={18} color="#dd2d2d" />
@@ -117,7 +120,7 @@ export default function RecipeScreen({ navigation, route }) {
                                     </View>
                                     {allergyCheck(allergies, userAllergy).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
                                 </View>
-                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 5 }}>
+                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 20 }}>
                                     <View style={{ flexDirection: "row" }}>
                                         <View style={{ justifyContent: "center" }}>
                                             <MaterialCommunityIcons name="alert" size={18} color="#fdab17" />
@@ -128,7 +131,7 @@ export default function RecipeScreen({ navigation, route }) {
                                     </View>
                                     {extraAllergy(allergies, allergyCheck(allergies, userAllergy)).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
                                 </View>
-                                <View style={{ marginTop: 5 }}>
+                                <View style={{ marginTop: 20 }}>
                                     <View style={{ flexDirection: "row" }}>
                                         <View style={{ justifyContent: "center" }}>
                                             <MaterialCommunityIcons name="alert" size={18} color="grey" />
@@ -150,7 +153,10 @@ export default function RecipeScreen({ navigation, route }) {
                             </View>
                             :
                             <View>
-                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 5 }}>
+                                <View style={styles.modalHeader}>
+                                    <Text>알러지 및 기타 정보</Text>
+                                </View>
+                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 20 }}>
                                     <View style={{ flexDirection: "row" }}>
                                         <View style={{ justifyContent: "center" }}>
                                             <MaterialCommunityIcons name="alert" size={18} color="#fdab17" />
@@ -161,7 +167,7 @@ export default function RecipeScreen({ navigation, route }) {
                                     </View>
                                     {extraAllergy(allergies, allergyCheck(allergies, userAllergy)).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
                                 </View>
-                                <View style={{ marginTop: 5 }}>
+                                <View style={{ marginTop: 20 }}>
                                     <View style={{ flexDirection: "row" }}>
                                         <View style={{ justifyContent: "center" }}>
                                             <MaterialCommunityIcons name="alert" size={18} color="grey" />
@@ -299,17 +305,25 @@ const styles = StyleSheet.create({
         margin: 50,
         borderRadius: 25,
         padding: 10,
-        width: width - 70
+        width: width - 55
     },
     modalTitle: {
         fontSize: 18,
         fontWeight: "bold",
-        marginLeft: 10
+        marginLeft: 10,
+        marginBottom: 10
     },
     modalContent: {
         fontSize: 15,
         marginTop: 5,
         marginBottom: 10,
         marginLeft: 27
+    },
+    modalHeader: {
+        padding: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        borderBottomColor: "#DCDCDC",
+        borderBottomWidth: 1
     }
 });
