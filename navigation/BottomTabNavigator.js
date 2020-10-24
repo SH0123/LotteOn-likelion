@@ -40,7 +40,6 @@ export default function BottomTabNavigator() {
             <Ionicons name="md-person" color={color} size={28} />
           )
         }}
-
       />
     </BottomTab.Navigator>
   );
