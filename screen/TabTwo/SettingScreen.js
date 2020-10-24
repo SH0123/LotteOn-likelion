@@ -41,32 +41,22 @@ export default function SettingScreen({ route, navigation }) {
         allergy.id === id ? {...allergy, checked: !allergy.checked} : allergy,
       ),
     );
-    
-    //가져오는건 잘되는데
-    // fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}`) 
-    // .then((response) => response.json())
-    // .then((json) => console.log(json))
-    // .catch((error) => console.error(error))
-    console.log(!allergyCheck[id-1].checked);
-    console.log(allergyCheck[id-1].content);
-    console.log(id);
-    //왜 보내는게 안될까
-    fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}`,{
-      method:'PATCH',
+
+    fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}/`,{
+      method:'PUT',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({
-        id: id,
+        id:id,
         content:allergyCheck[id-1].content,
         checked: !allergyCheck[id-1].checked
-      }),
+      }),      
     })
-
-    .then((response) => response.json())
-  //   .then((responseJson) => {
-  //     alert(responseJson)
-  //  })
+    .then((res) => res.json())
+    .then((response) => console.log("Success: ", JSON.stringify(response)))
    .catch((error) => {
     console.error(error)
    });   
@@ -80,6 +70,25 @@ export default function SettingScreen({ route, navigation }) {
         etc.id === id ? {...etc, checked: !etc.checked} : etc,
       ),
     );
+    
+    fetch(`http://runanam.pythonanywhere.com/etc/update/${id}/`,{
+      method:'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        id:id,
+        content:etcCheck[id-1].content,
+        checked: !etcCheck[id-1].checked
+      }),      
+    })
+    .then((res) => res.json())
+    .then((response) => console.log("Success: ", JSON.stringify(response)))
+   .catch((error) => {
+    console.error(error)
+   });   
   };
 
 
