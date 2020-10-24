@@ -6,10 +6,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get('window');
 
 export default function IngResultScreen({ route, navigation }) {
-    const { recipes, allergyChecking, userAllergy } = route.params;
+    const { recipes, allergyChecking, userAllergy, product } = route.params;
     const { allergies, feature } = route.params.product;
     const [visible, setVisible] = React.useState(false);
     const rec = recipes.filter(menu => menu.division === route.params.product.division);
+
+    const allergyCheck = (foodArr, userArr) => {
+        let ret = [];
+        for (let i = 0; i < foodArr.length; ++i) {
+            if (userArr.indexOf(foodArr[i]) > -1) {
+                ret.push(foodArr[i]);
+            }
+        }
+        return ret;
+    }
 
     const extraAllergy = (foodArr, userArr) => {
         let ret = [];
@@ -31,7 +41,7 @@ export default function IngResultScreen({ route, navigation }) {
                         height: 200,
                         resizeMode: 'contain'
                     }} source={route.params.product.uri} />
-                    {allergyChecking.length > 0 ? <TouchableOpacity
+                    {allergyCheck(product.allergies, userAllergy).length > 0 ? <TouchableOpacity
                         style={{ position: "absolute" }}
                         onPress={() => { setVisible(true) }}
                     >
@@ -103,7 +113,7 @@ export default function IngResultScreen({ route, navigation }) {
                                         </View>
                                     </View>
 
-                                    {allergyChecking.map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                    {allergyCheck(product.allergies, userAllergy).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
                                 </View>
                                 <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 20 }}>
                                     <View style={{ flexDirection: "row" }}>

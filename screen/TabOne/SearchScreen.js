@@ -241,7 +241,7 @@ export default function SearchScreen({ navigation }) {
       alert("검색어를 입력하세요");
     } else {
       const searchResult = Array.from(new Set(filterList(list)));
-      navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe, ingredients: ingredients, userAllergy: userAllergy });
+      navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe, ingredients: ingredients });
     }
   }
 
