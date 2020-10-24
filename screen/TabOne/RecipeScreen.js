@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Button, ScrollView, Image, Dimensions, TouchableOpacity, Modal } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
+import {useIsFocused} from '@react-navigation/native'
 
 const { width, height } = Dimensions.get('window');
 
@@ -9,7 +10,7 @@ export default function RecipeScreen({ navigation, route }) {
     const [userAllergy, setUserAllergy] = React.useState()
     const [loading, setLoading] = React.useState(true);
     const { allergies, feature } = route.params.recipe;
-
+    const isFocused = useIsFocused();
     const [visible, setVisible] = React.useState(false);
 
     const allergyCheck = (foodArr, userArr) => {
@@ -41,7 +42,7 @@ export default function RecipeScreen({ navigation, route }) {
             .then(console.log("useEffect"))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
-    }, []);
+    }, [isFocused]);
 
     return (
         <SafeAreaView style={styles.container}>

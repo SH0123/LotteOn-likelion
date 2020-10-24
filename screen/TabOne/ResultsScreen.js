@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity, 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import axios from 'axios';
+import {useIsFocused} from '@react-navigation/native'
 
 const { width, height } = Dimensions.get('window');
 
@@ -11,6 +11,7 @@ export default function SearchScreen({ route, navigation }) {
   const [userAllergy, setUserAllergy] = React.useState()
   const [loading, setLoading] = React.useState(true);
   const { recipes, ingredients } = route.params;
+  const isFocused = useIsFocused();
 
 
   if (route.params.results.length === undefined) {//결과 값이 하나인 경우
@@ -47,12 +48,9 @@ export default function SearchScreen({ route, navigation }) {
       .then((json) => json.filter(i => i.checked === true))
       .then(arr => arr.map(index => index.content))
       .then(allergies => setUserAllergy(allergies))
-      .then(console.log("useEffect"))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-  }, []);
-
-  console.log(userAllergy)
+  }, [isFocused]);
 
   const allergyCheck = (foodArr, userArr) => {
     let ret = [];
@@ -61,6 +59,7 @@ export default function SearchScreen({ route, navigation }) {
         ret.push(foodArr[i]);
       }
     }
+    console.log(ret);
     return ret;
   }
 

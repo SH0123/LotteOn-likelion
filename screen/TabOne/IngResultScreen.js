@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, FlatList, Modal, Button } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
+import {useIsFocused} from '@react-navigation/native'
 
 const { width, height } = Dimensions.get('window');
 
@@ -12,6 +13,8 @@ export default function IngResultScreen({ route, navigation }) {
     const { allergies, feature } = route.params.product;
     const [visible, setVisible] = React.useState(false);
     const rec = recipes.filter(menu => menu.division === route.params.product.division);
+    const isFocused = useIsFocused();
+
 
     const allergyCheck = (foodArr, userArr) => {
         let ret = [];
@@ -42,7 +45,7 @@ export default function IngResultScreen({ route, navigation }) {
             .then(console.log("useEffect"))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
-    }, []);
+    }, [isFocused]);
 
 
     return (

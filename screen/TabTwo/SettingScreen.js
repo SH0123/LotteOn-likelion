@@ -16,7 +16,6 @@ Font.loadAsync({
 });
 
 export default function SettingScreen({ route, navigation }) {
-
   const[visible, setVisible] = React.useState(false);
   const [allergyCheck, setallergyCheck] = useState([]);
   const [etcCheck, setetcCheck] = useState([]);
@@ -96,7 +95,6 @@ export default function SettingScreen({ route, navigation }) {
   };
 
 
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
@@ -114,9 +112,8 @@ export default function SettingScreen({ route, navigation }) {
         </TouchableOpacity>
       </View>
 
-
+                                        
       <View style={styles.allergy}>
-
         <Text style={styles.subtitle}>알레르기 </Text> 
         <View style={styles.subline}/>
 
@@ -145,6 +142,7 @@ export default function SettingScreen({ route, navigation }) {
           </View>
           )
           }
+          
 
       </View>
 
@@ -154,14 +152,14 @@ export default function SettingScreen({ route, navigation }) {
         <View style={styles.line}/>
         {etcCheck.map((etc) => (
           <View style={styles.col} key={etc.id}>
-            <Checklist id={etc.id} checklist={etc} onToggle={onToggleEtc} />
+             <Checklist id ={etc.id} checklist = {etc} onToggle={onToggleEtc}/>
           </View>
         ))}
       </View>
       <Modal visible={visible} transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalMain}>
-            <View style={styles.modalHeader}>
+            <View style={styles.modalHeader}> 
               <Text>알러지 유발 식품별 대체 식품</Text>
             </View>
             <View style={styles.modalContent}>
@@ -190,7 +188,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff",    
   },
   line: {
     height: 2,
@@ -214,7 +212,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-
     fontFamily:'ExtraBold',
     marginLeft: 10
   },  
@@ -226,16 +223,15 @@ const styles = StyleSheet.create({
     borderRadius:5,
     padding:3,
     marginLeft:"2%"
-
   },
 
-  col: {
-    flexDirection: "column",
-    width: "50%",
-  },
-  row: {
-    flexDirection: "row",
-  },
+  col:{
+    flexDirection: "column" , 
+    width:"50%",
+  },  
+  row:{
+    flexDirection: "row" , 
+  }, 
 
   allergy: {
     flex: 1.5,
