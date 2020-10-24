@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import {Feather} from "@expo/vector-icons";
 import Checklist from "./Checklist";
 import * as Font from 'expo-font';
 import projects from '../../apis/projects'
 
 Font.loadAsync({
+  'ExtraBold': require('../../assets/fonts/GothicA1-ExtraBold.ttf'),
   'Bold': require('../../assets/fonts/GothicA1-Bold.ttf'),
   'Medium': require('../../assets/fonts/GothicA1-Medium.ttf'),
 });
@@ -41,22 +43,23 @@ export default function SettingScreen({ route, navigation }) {
     );
     
     //가져오는건 잘되는데
-    fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}`) 
-    .then((response) => response.json())
-    .then((json) => console.log(json))
-    .catch((error) => console.error(error))
-
+    // fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}`) 
+    // .then((response) => response.json())
+    // .then((json) => console.log(json))
+    // .catch((error) => console.error(error))
+    console.log(!allergyCheck[id-1].checked);
+    console.log(allergyCheck[id-1].content);
+    console.log(id);
     //왜 보내는게 안될까
     fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}`,{
-      method:'PUT',
+      method:'PATCH',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify({
-        checked: allergyCheck[id-1].checked,
-        content: allergyCheck[id-1].content,
         id: id,
+        content:allergyCheck[id-1].content,
+        checked: !allergyCheck[id-1].checked
       }),
     })
 
@@ -83,20 +86,25 @@ export default function SettingScreen({ route, navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
+        <View style={{justifyContent: "center"}}>
+        <Feather name="settings" size={28}/>
+        </View>
         <Text style={styles.title}>개인설정</Text>
       </View>
 
                                         
       <View style={styles.allergy}>
         <Text style={styles.subtitle}>알레르기 </Text> 
-        <View style={styles.line} />
+        <View style={styles.subline}/>
+
+        <View style={styles.line}/>
           {isLoading ? (<Text>loading </Text>):
           ( 
             <View style={styles.row}>
             <View style={styles.col}>
               {allergyCheck.map((allergy) => (
                 <View  style={styles.col} key = {allergy.id}>
-                  {allergy.id <8 &&(<Checklist id ={allergy.id} checklist = {allergy}  onToggle={onToggle}/>
+                  {allergy.id <10 &&(<Checklist id ={allergy.id} checklist = {allergy}  onToggle={onToggle}/>
                   )}
                 </View>
               ))}
@@ -104,7 +112,7 @@ export default function SettingScreen({ route, navigation }) {
             <View style={styles.col}>
               {allergyCheck.map((allergy) => (
                 <View  style={styles.col} key = {allergy.id}>
-                  {allergy.id >8 &&(<Checklist id ={allergy.id} checklist = {allergy}  onToggle={onToggle}/>
+                  {allergy.id >10 &&(<Checklist id ={allergy.id} checklist = {allergy}  onToggle={onToggle}/>
                   )}
                 </View>
               ))}
@@ -120,7 +128,8 @@ export default function SettingScreen({ route, navigation }) {
 
       <View style={styles.etc}>
         <Text style={styles.subtitle}>추가 옵션</Text>
-        <View style={styles.line} />
+        <View style={styles.subline}/>
+        <View style={styles.line}/>
         {etcCheck.map((etc) => (
           <View style={styles.col} key={etc.id}>
              <Checklist id ={etc.id} checklist = {etc} onToggle={onToggleEtc}/>
@@ -140,26 +149,36 @@ const styles = StyleSheet.create({
   },
   line: {
     height: 2,
-    width: 100,
-    marginTop: 5,
+    marginTop: 2,
     marginBottom: 5,
+    width:"30%",
+    backgroundColor: "#CCCCCC",
+  },
+  subline: {
+    height: 1.5,
+    width:"30%",
     backgroundColor: "#CCCCCC",
   },
 
   top: {
     height: 50,
     flexDirection: "row",
-    justifyContent: "space-between",
-
+    marginBottom:10,
+    alignItems: "center"
   },
   title: {
     fontSize: 30,
-    fontFamily:'Bold'
+    fontFamily:'ExtraBold',
+    marginLeft: 10
   },  
 
   subtitle: {
-    fontSize: 20,
-    fontFamily:'Medium'
+    fontSize: 23,
+    fontFamily:'Bold',
+    color:"black",
+    borderRadius:5,
+    padding:3,
+    marginLeft:"2%"
   },
 
   col:{
