@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "LotteOn-likelion",
+    "name": "Scan_On",
     "slug": "LotteOn-likelion",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./images/로고.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -16,8 +16,10 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
+
+    "android": {
+      "package":"com.hanyang.scan_on",
+      "versionCode":1
     },
     "web": {
       "favicon": "./assets/favicon.png"

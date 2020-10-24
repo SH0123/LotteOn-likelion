@@ -228,13 +228,17 @@ const styles = StyleSheet.create({
   col:{
     flexDirection: "column" , 
     width:"50%",
+    overflow:"visible"
+
   },  
   row:{
     flexDirection: "row" , 
+    overflow:"visible"
+    
   }, 
 
   allergy: {
-    flex: 1.5,
+    flex: 1.7,
   },
   etc: {
     flex: 1,
