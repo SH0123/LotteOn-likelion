@@ -1,1 +1,6 @@
-[1019/223744.837:ERROR:directory_reader_win.cc(43)] FindFirstFile: ������ ��θ� ã�� �� �����ϴ�. (0x3)
+
+[1017/114346.053:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[1019/095311.132:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[1020/092245.478:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[1020/193915.586:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+
