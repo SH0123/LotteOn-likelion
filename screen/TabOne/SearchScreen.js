@@ -103,7 +103,7 @@ export default function SearchScreen({ navigation }) {
 
       division: "양송이버섯",
       name: "GAP 충남 오감 양송이",
-      barcodeNumber: "0430000320967",
+      barcodeNumber: "430000320967",
       relatedRecipes: ["양송이 스프"],
       brand: "오감",
       price: "4,980",
