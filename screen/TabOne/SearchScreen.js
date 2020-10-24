@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
+
 const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ navigation }) {
@@ -72,8 +73,8 @@ export default function SearchScreen({ navigation }) {
 
       division: "우유",
       name: "소화가 잘되는 우유 오리지널",
-      barcodeNumber: "",
-      relatedRecipes: ["8801121102398"],
+      barcodeNumber: "8801121102398",
+      relatedRecipes: "",
       brand: "매일",
       price: "3,150",
       warnings: ["구매시 유통기한을 꼭 확인해주세요.", "날카로운 물건으로 개봉하실경우 우유팩까지 그어져 제품이 손상될 수 있으니 주의하셔서 개봉 부탁드립니다."],
@@ -119,11 +120,11 @@ export default function SearchScreen({ navigation }) {
     {
       division: "두부",
       name: "두부조림",
-      ingredients: [{ name: "재료 1", quantity: "1" }, { name: "재료 2", quantity: "2" }, { name: "재료 3", quantity: "3" }],
-      seasoning: [{ name: "양념 1", quantity: "1" }, { name: "양념 2", quantity: "2" }],
-      directions: [{ order: "1번 순서", uri: require("../../images/recipe/두부조림/1.jpeg") },
-      { order: "2번 순서", uri: require("../../images/recipe/두부조림/2.jpeg") },
-      { order: "3번 순서", uri: require("../../images/recipe/두부조림/3.jpeg") }],
+      ingredients: [{ name: "두부", quantity: "1모" }, { name: "다시마 육수", quantity: "1/2컵" }, { name: "다진 마늘", quantity: "1/2스푼" }, { name: "맛술", quantity: "1스푼" }],
+      seasoning: [{ name: "소금", quantity: "한꼬집" }, { name: "고춧가루", quantity: "1스푼" }, { name: "설탕", quantity: "1/2스푼" }, { name: "진간장", quantity: "3스푼" }],
+      directions: [{ order: "두부 4등분 하고 나서 3등분 또 해서 썰고 소금 밑간 하기", uri: require("../../images/recipe/두부조림/1.jpeg") },
+      { order: "고춧가루1, 다진마늘 0.5, 다진대파 넉넉히, 설탕 0.5, 진간장 3, 맛술1, 참기름으로 양념장 만들기", uri: require("../../images/recipe/두부조림/2.jpeg") },
+      { order: "두부 부치고 양념장과 함께 조리기", uri: require("../../images/recipe/두부조림/3.jpeg") }],
       uri: require("../../images/recipe/두부조림/두부조림.jpeg"),
       time: "30분",
       serving: "2인분",
@@ -134,11 +135,11 @@ export default function SearchScreen({ navigation }) {
     {
       division: "두부",
       name: "두부찌개",
-      ingredients: [{ name: "재료 1", quantity: "1" }, { name: "재료 2", quantity: "2" }, { name: "재료 3", quantity: "3" }],
-      seasoning: [{ name: "양념 1", quantity: 1 }, { name: "양념 2", quantity: 2 }],
-      directions: [{ order: "1번 순서", uri: require("../../images/recipe/두부조림/1.jpeg") },
-      { order: "2번 순서", uri: require("../../images/recipe/두부조림/2.jpeg") },
-      { order: "3번 순서", uri: require("../../images/recipe/두부조림/3.jpeg") }],
+      ingredients: [{ name: "두부", quantity: "1모" }, { name: "애호박", quantity: "1/2개" }, { name: "양파", quantity: "1개" }, { name: "느타리버섯", quantity: "한줌" }, { name: "대파", quantity: "1대" }, { name: "청양고추", quantity: "1개" }],
+      seasoning: [{ name: "고추장", quantity: "1큰술" }, { name: "새우젓", quantity: "2큰술" }, { name: "고춧가루", quantity: "1큰술" }, { name: "물", quantity: "1큰술" }, { name: "다진마늘", quantity: "1큰술" }, { name: "멸치육수", quantity: "1팩" }],
+      directions: [{ order: "간편하게 멸치 육수 팩 1개로 육수를 우려냅니다.", uri: require("../../images/recipe/두부찌개/1.jpeg") },
+      { order: "고추장, 새우젓, 고춧가루, 물, 다진마늘을 준비한 만큼 넣고 찌개양념을 만듭니다.", uri: require("../../images/recipe/두부찌개/2.jpg") },
+      { order: "두부를 잘라서 냄비에 깔아준뒤, 느타리버섯, 청양고추, 대파와 함께 뜨거운 육수를 부어주고 찌개양념을 넣어서 끓여줍니다. ", uri: require("../../images/recipe/두부찌개/3.jpg") }],
       uri: require("../../images/recipe/두부찌개/두부찌개.jpeg"),
       time: "30분",
       serving: "2인분",
@@ -149,11 +150,14 @@ export default function SearchScreen({ navigation }) {
     {
       division: "두부",
       name: "두부 두루치기",
-      ingredients: [{ name: "재료 1", quantity: "1" }, { name: "재료 2", quantity: "2" }, { name: "재료 3", quantity: "3" }],
-      seasoning: [{ name: "양념 1", quantity: 1 }, { name: "양념 2", quantity: 2 }],
-      directions: [{ order: "1번 순서", uri: require("../../images/recipe/두부조림/1.jpeg") },
-      { order: "2번 순서", uri: require("../../images/recipe/두부조림/2.jpeg") },
-      { order: "3번 순서", uri: require("../../images/recipe/두부조림/3.jpeg") }],
+      ingredients: [{ name: "두부", quantity: "1모" }, { name: "돼지고기", quantity: "100g" }, { name: "배추김치", quantity: "1컵" }, { name: "양파", quantity: "1/2개" }, { name: "대파", quantity: "1대" }, { name: "풋고추", quantity: "3개" }, { name: "멸치 다시마 육수", quantity: "2컵" }, { name: "통깨", quantity: "1큰술" }],
+      seasoning: [{ name: "고춧가루", quantity: "2큰술" }, { name: "고추장", quantity: "3큰술" }, { name: "간장", quantity: "1큰술" }, { name: "액젓", quantity: "1큰술" }, { name: "설탕", quantity: "1큰술" }, { name: "맛술", quantity: "2큰술" }, { name: "다진 마늘", quantity: "2큰술" }, { name: "식용유", quantity: "1큰술" }],
+      directions: [{ order: "고춧가루, 고추장, 간장, 액젓, 설탕, 맛술, 다진 마늘을 넣어 양념을 만들어주세요.", uri: require("../../images/recipe/두부두루치기/1.jpeg") },
+      { order: "두부는 먹기 좋은 크기로 썰어 약간의 소금을 뿌려 밑간해 주세요.", uri: require("../../images/recipe/두부두루치기/2.jpeg") },
+      { order: "돼지고기를 잘게 썰어 식용유와 함께 볶아주다가 하얗게 익으면 배추김치를 넣고 볶아주세요.", uri: require("../../images/recipe/두부두루치기/3.jpg") },
+      { order: "김치가 어느정도 익으면 육수를 붓고 끓이다가, 국물이 끓으면 불을 줄이고 10분정도 끓여주세요", uri: require("../../images/recipe/두부두루치기/4.jpeg") },
+      { order: "뚜껑을 열어 두부를 넣고 양파, 대파, 풋고추도 넣어 뚜껑을 덮고 끓여주세요.", uri: require("../../images/recipe/두부두루치기/5.jpeg") },
+      { order: "5분 정도 보글보글 끓여주고 통깨를 뿌려 레시피를 완성합니다.", uri: require("../../images/recipe/두부두루치기/6.jpeg") }],
       uri: require("../../images/recipe/두부두루치기/두부두루치기.jpeg"),
       time: "30분",
       serving: "2인분",
@@ -183,13 +187,15 @@ export default function SearchScreen({ navigation }) {
     },
   ]
   );
-  const [userAllergy, setUserAllergy] = React.useState(["토마토", "새우", "우유"])
+  const [userAllergy, setUserAllergy] = React.useState("우유")
 
   const [value, onChangeText] = React.useState("");
   const [visible, setVisible] = React.useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [barcode, setBarcode] = useState("");
+  const [data, setData] = React.useState();
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     (async () => {
@@ -198,9 +204,19 @@ export default function SearchScreen({ navigation }) {
     })();
   }, []);
 
+  useEffect(() => {
+    fetch('http://runanam.pythonanywhere.com/allergy/')
+      .then((response) => response.json())
+      .then((json) => json.map(i => console.log(i.checked)))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+
+
+  }, []);
+
+
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    setBarcode(data);
     setVisible(false);
     onChangeText(data);
     setScanned(false);
@@ -216,7 +232,7 @@ export default function SearchScreen({ navigation }) {
 
   const filterList = (list) => {
     return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()) ||
-      listItem.barcode === value);
+      listItem.barcodeNumber === (value));
   }
 
   const submitEvent = (list) => {
@@ -228,6 +244,7 @@ export default function SearchScreen({ navigation }) {
     }
   }
 
+  console.log(data)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -266,7 +283,7 @@ export default function SearchScreen({ navigation }) {
                 })}
               >
                 {value === "" ? <View></View> :
-                  <Text>
+                  <Text style={{ paddingVertical: 5, borderBottomWidth: 1, fontSize: 15 }}>
                     {item.name}
                   </Text>}
 

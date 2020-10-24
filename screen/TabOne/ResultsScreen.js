@@ -3,11 +3,13 @@ import { StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity, 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ route, navigation }) {
   const { recipes, userAllergy, ingredients } = route.params;
+
 
   if (route.params.results.length === undefined) {//결과 값이 하나인 경우
     var resultsArr = [route.params.results];
@@ -36,6 +38,8 @@ export default function SearchScreen({ route, navigation }) {
     }
 
   }
+
+
 
   const allergyCheck = (foodArr, userArr) => {
     let ret = [];
@@ -70,9 +74,12 @@ export default function SearchScreen({ route, navigation }) {
                       resizeMode: 'contain'
                     }} source={item.uri} />
                     {allergyCheck(item.allergies, userAllergy).length > 0 ? <MaterialCommunityIcons name="alert" color="red" size={40} style={{ position: 'absolute', top: 0, left: 0 }} /> : <></>}
-                    <Text>{item.brand}</Text>
-                    <Text>{item.name}</Text>
-                    <Text>{item.price}원</Text>
+                    <View style={{ flexDirection: "row", fontSize: 15 }}>
+                      <Text style={{ fontWeight: "bold" }}>{item.brand} </Text>
+                      <Text>{item.name}</Text>
+                    </View>
+
+                    <Text style={{ fontWeight: "bold", fontSize: 20, marginTop: 5 }}>{item.price}원</Text>
                   </TouchableOpacity>
                 )
               }}
@@ -111,7 +118,7 @@ export default function SearchScreen({ route, navigation }) {
 
         </>) :
         <View style={styles.nullContainer}>
-          <Text>검색 결과가 없습니다</Text>
+          <Text style={{ fontSize: 20 }}>검색 결과가 없습니다</Text>
         </View>}
     </SafeAreaView>
   );
@@ -134,7 +141,6 @@ const Header = ({ navigation, ingredients, recipe, userAllergy }) => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    setBarcode(data);
     setVisible(false);
     onChangeText(data);
     setScanned(false);
@@ -149,7 +155,8 @@ const Header = ({ navigation, ingredients, recipe, userAllergy }) => {
 
 
   const filterList = (list) => {
-    return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()));
+    return list.filter(listItem => listItem.name.toLowerCase().includes(value.toLowerCase()) ||
+      listItem.barcodeNumber === (value));
   }
 
   const submitEvent = (list) => {
@@ -244,17 +251,18 @@ const styles = StyleSheet.create({
 
   },
   ingResultContainer: {
-    backgroundColor: "yellow",
+    borderBottomWidth: 1,
+    borderBottomColor: "grey",
     width: width - 30,
     flex: 3
   },
   ingredientContainer: {
-    backgroundColor: "pink",
+
     marginRight: 30,
-    marginTop: 10
+    marginTop: 30
   },
   recipesContainer: {
-    backgroundColor: "skyblue",
+
     width: width - 30,
     flex: 3,
     paddingTop: 20
@@ -273,7 +281,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 5,
     marginRight: 10,
-    backgroundColor: "#7FFFD4"
+    backgroundColor: "#FFB6C1",
+    borderColor: "#FFB6C1",
+
   },
   textSize: {
     fontSize: 22
