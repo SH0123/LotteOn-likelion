@@ -8,7 +8,9 @@ import axios from 'axios';
 const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ route, navigation }) {
-  const { recipes, userAllergy, ingredients } = route.params;
+  const [userAllergy, setUserAllergy] = React.useState()
+  const [loading, setLoading] = React.useState(true);
+  const { recipes, ingredients } = route.params;
 
 
   if (route.params.results.length === undefined) {//결과 값이 하나인 경우
@@ -39,7 +41,18 @@ export default function SearchScreen({ route, navigation }) {
 
   }
 
+  useEffect(() => {
+    fetch('http://runanam.pythonanywhere.com/allergy/')
+      .then((response) => response.json())
+      .then((json) => json.filter(i => i.checked === true))
+      .then(arr => arr.map(index => index.content))
+      .then(allergies => setUserAllergy(allergies))
+      .then(console.log("useEffect"))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
 
+  console.log(userAllergy)
 
   const allergyCheck = (foodArr, userArr) => {
     let ret = [];
@@ -54,7 +67,7 @@ export default function SearchScreen({ route, navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} ingredients={ingredients} recipe={recipes} userAllergy={userAllergy} />
-      {resultAvail ?
+      {resultAvail && !loading ?
         (<>
           <View style={styles.ingResultContainer}>
             <Text style={styles.textSize}>검색결과</Text>
@@ -164,7 +177,7 @@ const Header = ({ navigation, ingredients, recipe, userAllergy }) => {
       alert("검색어를 입력하세요");
     } else {
       const searchResult = Array.from(new Set(filterList(list)));
-      navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe, ingredients: ingredients, userAllergy: userAllergy });
+      navigation.navigate("ResultsScreen", { results: searchResult, recipes: recipe, ingredients: ingredients });
     }
 
   }
