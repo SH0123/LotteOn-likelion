@@ -27,13 +27,19 @@ export default function Checklist({id, checklist, onToggle} ) {
 const styles = StyleSheet.create({
     row:{
       flexDirection: "row" , 
-      margin:3,
+      padding:3,
+      overflow:"visible",
+      width:"170%",
+
     }, 
      listContent:{
       color:"black",
       fontSize:15,
-    fontFamily:'Medium',
-    marginTop:2,
+      fontFamily:'Medium',
+      marginTop:2,
+      flexWrap:"wrap"
+
+
     },
 
   });
