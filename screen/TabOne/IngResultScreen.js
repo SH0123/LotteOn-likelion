@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, FlatList, Modal, Button } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,7 +6,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get('window');
 
 export default function IngResultScreen({ route, navigation }) {
-    const { recipes, allergyChecking, userAllergy, product } = route.params;
+    const [userAllergy, setUserAllergy] = React.useState();
+    const [loading, setLoading] = React.useState(true);
+    const { recipes, allergyChecking, product } = route.params;
     const { allergies, feature } = route.params.product;
     const [visible, setVisible] = React.useState(false);
     const rec = recipes.filter(menu => menu.division === route.params.product.division);
@@ -31,161 +33,177 @@ export default function IngResultScreen({ route, navigation }) {
         return ret;
     }
 
+    useEffect(() => {
+        fetch('http://runanam.pythonanywhere.com/allergy/')
+            .then((response) => response.json())
+            .then((json) => json.filter(i => i.checked === true))
+            .then(arr => arr.map(index => index.content))
+            .then(allergies => setUserAllergy(allergies))
+            .then(console.log("useEffect"))
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    }, []);
+
+
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} name={route.params.product.name} />
-            <View style={styles.productContainer}>
-                <View style={{ flexDirection: "row" }}>
-                    <Image style={{
-                        width: 300,
-                        height: 200,
-                        resizeMode: 'contain'
-                    }} source={route.params.product.uri} />
-                    {allergyCheck(product.allergies, userAllergy).length > 0 ? <TouchableOpacity
-                        style={{ position: "absolute" }}
-                        onPress={() => { setVisible(true) }}
-                    >
-                        <MaterialCommunityIcons name="alert" size={40} color="#dd2d2d" />
-                    </TouchableOpacity> : <TouchableOpacity
-                        style={{ position: "absolute" }}
-                        onPress={() => { setVisible(true) }}
-                    >
-                            <MaterialCommunityIcons name="adjust" size={40} color="green" />
-                        </TouchableOpacity>}
+            {!loading ?
+                <>
+                    <View style={styles.productContainer}>
+                        <View style={{ flexDirection: "row" }}>
+                            <Image style={{
+                                width: 300,
+                                height: 200,
+                                resizeMode: 'contain'
+                            }} source={route.params.product.uri} />
+                            {allergyCheck(product.allergies, userAllergy).length > 0 ? <TouchableOpacity
+                                style={{ position: "absolute" }}
+                                onPress={() => { setVisible(true) }}
+                            >
+                                <MaterialCommunityIcons name="alert" size={40} color="#dd2d2d" />
+                            </TouchableOpacity> : <TouchableOpacity
+                                style={{ position: "absolute" }}
+                                onPress={() => { setVisible(true) }}
+                            >
+                                    <MaterialCommunityIcons name="adjust" size={40} color="green" />
+                                </TouchableOpacity>}
 
-                </View>
-                <View style={{ flexDirection: "row", marginTop: 10 }}>
-                    <Text style={{ fontWeight: "bold", fontSize: 18 }}>{route.params.product.brand} </Text>
-                    <Text style={{ fontSize: 18 }}>{route.params.product.name}</Text>
-                </View>
-                <Text style={styles.foodTitle}>{route.params.product.price}원</Text>
-            </View>
-            <View style={styles.cautionContainer}>
-                <Text style={styles.subtitleText}>주의 항목 : </Text>
-                {route.params.product.warnings.map(cau => <Text style={styles.cautionText}>{cau}</Text>)}
-            </View>
-            <View style={styles.recomContainer}>
-                {rec.length > 0 ?
-                    <>
-                        <Text style={styles.subtitleText}>레시피 추천</Text>
-                        <FlatList
-                            style={styles.recomBox}
-                            horizontal={true}
-                            data={rec}
-                            renderItem={({ item }) => {
-
-                                return (
-                                    <TouchableOpacity
-                                        style={styles.recomDetail}
-                                        onPress={() => { navigation.navigate("RecipeScreen", { recipe: item, userAllergy: userAllergy }) }}
-                                    >
-                                        <Image style={{
-                                            width: 80,
-                                            height: 80,
-                                            resizeMode: 'contain',
-
-                                        }} source={item.uri} />
-                                        <Text style={{ fontSize: 16 }}>{item.name}</Text>
-                                    </TouchableOpacity>
-                                )
-                            }}
-                            keyExtractor={({ item, index }) => `${index}`} />
-                    </> :
-                    <></>}
-
-
-            </View>
-            <Modal visible={visible} transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalMain}>
-                        {allergyChecking.length > 0 ?
-                            <View>
-                                <View style={styles.modalHeader}>
-                                    <Text>알러지 및 기타 정보</Text>
-                                </View>
-                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 20 }}>
-                                    <View style={{ flexDirection: "row" }}>
-                                        <View style={{ justifyContent: "center" }}>
-                                            <MaterialCommunityIcons name="alert" size={18} color="#dd2d2d" />
-                                        </View>
-                                        <View style={{ justifyContent: "center" }}>
-                                            <Text style={styles.modalTitle}>사용자가 조심해야 할 알러지 유발 항목</Text>
-                                        </View>
-                                    </View>
-
-                                    {allergyCheck(product.allergies, userAllergy).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
-                                </View>
-                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 20 }}>
-                                    <View style={{ flexDirection: "row" }}>
-                                        <View style={{ justifyContent: "center" }}>
-                                            <MaterialCommunityIcons name="alert" size={18} color="#fdab17" />
-                                        </View>
-                                        <View style={{ justifyContent: "center" }}>
-                                            <Text style={styles.modalTitle}>기타 알러지 유발 항목</Text>
-                                        </View>
-                                    </View>
-                                    {extraAllergy(allergies, allergyChecking).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
-                                </View>
-                                <View style={{ marginTop: 20 }}>
-                                    <View style={{ flexDirection: "row" }}>
-                                        <View style={{ justifyContent: "center" }}>
-                                            <MaterialCommunityIcons name="alert" size={18} color="grey" />
-                                        </View>
-                                        <View style={{ justifyContent: "center" }}>
-                                            <Text style={styles.modalTitle}>기타 음식 특징</Text>
-                                        </View>
-                                    </View>
-
-                                    <Text style={styles.modalContent}>{feature}</Text>
-                                </View>
-                                <TouchableOpacity
-                                    onPress={() => setVisible(false)}
-                                    style={{ borderRadius: 25, backgroundColor: "#dd2d2d", padding: 10, borderColor: "black", alignItems: "center" }}
-                                >
-
-                                    <Text style={{ color: "white" }}>확인</Text>
-                                </TouchableOpacity>
-                            </View>
-                            :
-                            <View>
-                                <View style={styles.modalHeader}>
-                                    <Text>알러지 및 기타 정보</Text>
-                                </View>
-                                <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 20 }}>
-                                    <View style={{ flexDirection: "row" }}>
-                                        <View style={{ justifyContent: "center" }}>
-                                            <MaterialCommunityIcons name="alert" size={18} color="#fdab17" />
-                                        </View>
-                                        <View style={{ justifyContent: "center" }}>
-                                            <Text style={styles.modalTitle}>알러지 유발 항목</Text>
-                                        </View>
-                                    </View>
-                                    {extraAllergy(allergies, allergyChecking).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
-                                </View>
-                                <View style={{ marginTop: 20 }}>
-                                    <View style={{ flexDirection: "row" }}>
-                                        <View style={{ justifyContent: "center" }}>
-                                            <MaterialCommunityIcons name="alert" size={18} color="grey" />
-                                        </View>
-                                        <View style={{ justifyContent: "center" }}>
-                                            <Text style={styles.modalTitle}>기타 음식 특징</Text>
-                                        </View>
-                                    </View>
-
-                                    <Text style={styles.modalContent}>{feature}</Text>
-                                </View>
-                                <TouchableOpacity
-                                    onPress={() => setVisible(false)}
-                                    style={{ borderRadius: 25, backgroundColor: "#dd2d2d", padding: 10, borderColor: "black", alignItems: "center" }}
-                                >
-
-                                    <Text style={{ color: "white" }}>확인</Text>
-                                </TouchableOpacity>
-                            </View>
-                        }
+                        </View>
+                        <View style={{ flexDirection: "row", marginTop: 10 }}>
+                            <Text style={{ fontWeight: "bold", fontSize: 18 }}>{route.params.product.brand} </Text>
+                            <Text style={{ fontSize: 18 }}>{route.params.product.name}</Text>
+                        </View>
+                        <Text style={styles.foodTitle}>{route.params.product.price}원</Text>
                     </View>
-                </View>
-            </Modal>
+                    <View style={styles.cautionContainer}>
+                        <Text style={styles.subtitleText}>주의 항목 : </Text>
+                        {route.params.product.warnings.map(cau => <Text style={styles.cautionText}>{cau}</Text>)}
+                    </View>
+                    <View style={styles.recomContainer}>
+                        {rec.length > 0 ?
+                            <>
+                                <Text style={styles.subtitleText}>레시피 추천</Text>
+                                <FlatList
+                                    style={styles.recomBox}
+                                    horizontal={true}
+                                    data={rec}
+                                    renderItem={({ item }) => {
+
+                                        return (
+                                            <TouchableOpacity
+                                                style={styles.recomDetail}
+                                                onPress={() => { navigation.navigate("RecipeScreen", { recipe: item, userAllergy: userAllergy }) }}
+                                            >
+                                                <Image style={{
+                                                    width: 80,
+                                                    height: 80,
+                                                    resizeMode: 'contain',
+
+                                                }} source={item.uri} />
+                                                <Text style={{ fontSize: 16 }}>{item.name}</Text>
+                                            </TouchableOpacity>
+                                        )
+                                    }}
+                                    keyExtractor={({ item, index }) => `${index}`} />
+                            </> :
+                            <></>}
+
+
+                    </View>
+                    <Modal visible={visible} transparent={true}>
+                        <View style={styles.modalContainer}>
+                            <View style={styles.modalMain}>
+                                {allergyCheck(product.allergies, userAllergy).length > 0 ?
+                                    <View>
+                                        <View style={styles.modalHeader}>
+                                            <Text>알러지 및 기타 정보</Text>
+                                        </View>
+                                        <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 20 }}>
+                                            <View style={{ flexDirection: "row" }}>
+                                                <View style={{ justifyContent: "center" }}>
+                                                    <MaterialCommunityIcons name="alert" size={18} color="#dd2d2d" />
+                                                </View>
+                                                <View style={{ justifyContent: "center" }}>
+                                                    <Text style={styles.modalTitle}>사용자가 조심해야 할 알러지 유발 항목</Text>
+                                                </View>
+                                            </View>
+
+                                            {allergyCheck(product.allergies, userAllergy).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                        </View>
+                                        <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 20 }}>
+                                            <View style={{ flexDirection: "row" }}>
+                                                <View style={{ justifyContent: "center" }}>
+                                                    <MaterialCommunityIcons name="alert" size={18} color="#fdab17" />
+                                                </View>
+                                                <View style={{ justifyContent: "center" }}>
+                                                    <Text style={styles.modalTitle}>기타 알러지 유발 항목</Text>
+                                                </View>
+                                            </View>
+                                            {extraAllergy(allergies, allergyCheck(product.allergies, userAllergy)).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                        </View>
+                                        <View style={{ marginTop: 20 }}>
+                                            <View style={{ flexDirection: "row" }}>
+                                                <View style={{ justifyContent: "center" }}>
+                                                    <MaterialCommunityIcons name="alert" size={18} color="grey" />
+                                                </View>
+                                                <View style={{ justifyContent: "center" }}>
+                                                    <Text style={styles.modalTitle}>기타 음식 특징</Text>
+                                                </View>
+                                            </View>
+
+                                            <Text style={styles.modalContent}>{feature}</Text>
+                                        </View>
+                                        <TouchableOpacity
+                                            onPress={() => setVisible(false)}
+                                            style={{ borderRadius: 25, backgroundColor: "#dd2d2d", padding: 10, borderColor: "black", alignItems: "center" }}
+                                        >
+
+                                            <Text style={{ color: "white" }}>확인</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    :
+                                    <View>
+                                        <View style={styles.modalHeader}>
+                                            <Text>알러지 및 기타 정보</Text>
+                                        </View>
+                                        <View style={{ borderBottomColor: "grey", borderBottomWidth: 1, marginTop: 20 }}>
+                                            <View style={{ flexDirection: "row" }}>
+                                                <View style={{ justifyContent: "center" }}>
+                                                    <MaterialCommunityIcons name="alert" size={18} color="#fdab17" />
+                                                </View>
+                                                <View style={{ justifyContent: "center" }}>
+                                                    <Text style={styles.modalTitle}>알러지 유발 항목</Text>
+                                                </View>
+                                            </View>
+                                            {extraAllergy(allergies, allergyCheck(product.allergies, userAllergy)).map(allergy => <Text style={styles.modalContent}>{allergy}</Text>)}
+                                        </View>
+                                        <View style={{ marginTop: 20 }}>
+                                            <View style={{ flexDirection: "row" }}>
+                                                <View style={{ justifyContent: "center" }}>
+                                                    <MaterialCommunityIcons name="alert" size={18} color="grey" />
+                                                </View>
+                                                <View style={{ justifyContent: "center" }}>
+                                                    <Text style={styles.modalTitle}>기타 음식 특징</Text>
+                                                </View>
+                                            </View>
+
+                                            <Text style={styles.modalContent}>{feature}</Text>
+                                        </View>
+                                        <TouchableOpacity
+                                            onPress={() => setVisible(false)}
+                                            style={{ borderRadius: 25, backgroundColor: "#dd2d2d", padding: 10, borderColor: "black", alignItems: "center" }}
+                                        >
+
+                                            <Text style={{ color: "white" }}>확인</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                }
+                            </View>
+                        </View>
+                    </Modal>
+                </> : <></>}
+
         </SafeAreaView >
     );
 }

@@ -66,7 +66,7 @@ export default function SearchScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} ingredients={ingredients} recipe={recipes} userAllergy={userAllergy} />
+      <Header navigation={navigation} ingredients={ingredients} recipe={recipes} />
       {resultAvail && !loading ?
         (<>
           <View style={styles.ingResultContainer}>
@@ -137,7 +137,7 @@ export default function SearchScreen({ route, navigation }) {
   );
 }
 
-const Header = ({ navigation, ingredients, recipe, userAllergy }) => {
+const Header = ({ navigation, ingredients, recipe }) => {
 
   const [value, onChangeText] = React.useState("");
   const [visible, setVisible] = React.useState(false);
