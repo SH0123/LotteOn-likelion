@@ -10,15 +10,16 @@ Font.loadAsync({
 });
 
 
-export default function Checklist({id, checklist, onToggle, font}) {
+export default function Checklist({id, checklist, onToggle} ) {
     return (
-        <TouchableOpacity  style={styles.row} onPressOut={onToggle(id)}>
+        <TouchableOpacity  style={styles.row} onPress={onToggle(id)}>
             {checklist.checked ?(
             <MaterialCommunityIcons size={22} name='checkbox-marked-circle-outline' />
             ):(
             <MaterialCommunityIcons size={22} name='checkbox-blank-circle-outline' />
             )}
-            <Text style={styles.listContent}> {checklist.content}</Text>
+           
+            <Text style={styles.listContent}> {checklist.content}</Text>   
       </TouchableOpacity>
     );  
 }
