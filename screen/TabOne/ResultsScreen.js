@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity, 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import axios from 'axios';
+import { useIsFocused } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get('window');
 
@@ -40,6 +40,7 @@ export default function SearchScreen({ route, navigation }) {
     }
 
   }
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     fetch('http://runanam.pythonanywhere.com/allergy/')
@@ -50,7 +51,10 @@ export default function SearchScreen({ route, navigation }) {
       .then(console.log("useEffect"))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-  }, []);
+
+
+
+  }, [isFocused]);
 
   console.log(userAllergy)
 
@@ -63,6 +67,8 @@ export default function SearchScreen({ route, navigation }) {
     }
     return ret;
   }
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -158,6 +164,7 @@ const Header = ({ navigation, ingredients, recipe }) => {
     onChangeText(data);
     setScanned(false);
   };
+
 
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
