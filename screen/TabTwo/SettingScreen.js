@@ -1,151 +1,84 @@
-import { DrawerContentScrollView } from "@react-navigation/drawer";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { roundToNearestPixel } from "react-native/Libraries/Utilities/PixelRatio";
 import Checklist from "./Checklist";
 import * as Font from 'expo-font';
+import projects from '../../apis/projects'
 
-// 폰트적용 이게 맞나?
 Font.loadAsync({
   'Bold': require('../../assets/fonts/GothicA1-Bold.ttf'),
   'Medium': require('../../assets/fonts/GothicA1-Medium.ttf'),
 });
 
 export default function SettingScreen({ route, navigation }) {
-  const [allergyCheck, setallergyCheck] = useState([
-    {
-      id: 0,
-      content: "우유",
-      checked: false,
-    },
-    {
-      id: 1,
-      content: "땅콩",
-      checked: false,
-    },
-    {
-      id: 2,
-      content: "밀",
-      checked: false,
-    },
-    {
-      id: 3,
-      content: "난류",
-      checked: false,
-    },
-    {
-      id: 4,
-      content: "돼지고기",
-      checked: false,
-    },
-    {
-      id: 5,
-      content: "새우",
-      checked: false,
-    },
-    {
-      id: 6,
-      content: "메밀",
-      checked: false,
-    },
-    {
-      id: 7,
-      content: "토마토",
-      checked: false,
-    },
-    {
-      id: 8,
-      content: "대두",
-      checked: false,
-    },
-    {
-      id: 9,
-      content: "복숭아",
-      checked: false,
-    },
-    {
-      id: 10,
-      content: "고등어",
-      checked: false,
-    },
-    {
-      id: 11,
-      content: "게",
-      checked: false,
-    },
-    {
-      id: 12,
-      content: "아황산류",
-      checked: false,
-    },
-    {
-      id: 13,
-      content: "호두",
-      checked: false,
-    },
-    {
-      id: 14,
-      content: "닭고기",
-      checked: false,
-    },
-    {
-      id: 15,
-      content: "쇠고기",
-      checked: false,
-    },
-    {
-      id: 16,
-      content: "오징어",
-      checked: false,
-    },
-    {
-      id: 17,
-      content: "조개류",
-      checked: false,
-    },
-  ]);
-  
 
-  const onToggle = (id) => e=>{
+  const [allergyCheck, setallergyCheck] = useState([]);
+  const [etcCheck, setetcCheck] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+
+
+  useEffect(()=>{
+      fetch('http://runanam.pythonanywhere.com/allergy/')
+        .then((response) => response.json())
+        .then((json) => setallergyCheck(json))
+        .catch((error) => console.error(error))
+
+      fetch('http://runanam.pythonanywhere.com/etc/')
+        .then((response) => response.json())
+        .then((json) => setetcCheck(json))
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+      
+
+  },[])
+
+  
+  const onToggle = (id) => e =>{
    setallergyCheck(
     allergyCheck.map(allergy =>
         allergy.id === id ? {...allergy, checked: !allergy.checked} : allergy,
       ),
     );
+    
+    //가져오는건 잘되는데
+    fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}`) 
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+    .catch((error) => console.error(error))
+
+    //왜 보내는게 안될까
+    fetch(`http://runanam.pythonanywhere.com/allergy/update/${id}`,{
+      method:'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        checked: allergyCheck[id-1].checked,
+        content: allergyCheck[id-1].content,
+        id: id,
+      }),
+    })
+
+    .then((response) => response.json())
+  //   .then((responseJson) => {
+  //     alert(responseJson)
+  //  })
+   .catch((error) => {
+    console.error(error)
+   });   
+
   };  
+
   
-  // const onToggleEtc = (id) => e=>{
-  //   console.log(" ");    
-  //   route.params.setetcCheck(
-  //     route.params.etcCheck.map(etc =>
-  //        etc.id === id ? {...etc, checked: !etc.checked} : etc,
-  //      ),
-  //    );
-  //    console.log(route.params.etcCheck)
-  //  };
+  const onToggleEtc = (id) => e=>{
+  setetcCheck(
+    etcCheck.map(etc =>
+        etc.id === id ? {...etc, checked: !etc.checked} : etc,
+      ),
+    );
+  };
 
-    const onToggleEtc = (id) => e=>{
-    setetcCheck(
-      etcCheck.map(etc =>
-         etc.id === id ? {...etc, checked: !etc.checked} : etc,
-       ),
-     );
-     console.log(etcCheck);
-   };
-
-  const [etcCheck, setetcCheck] = useState( [
-    {
-      id:0,
-      content: "할랄",
-      checked: false,
-    },
-    {
-      id:1,
-      content: "비건",
-      checked: false,
-    },
-  ]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -157,8 +90,9 @@ export default function SettingScreen({ route, navigation }) {
       <View style={styles.allergy}>
         <Text style={styles.subtitle}>알레르기 </Text> 
         <View style={styles.line} />
-
-          <View style={styles.row}>
+          {isLoading ? (<Text>loading </Text>):
+          ( 
+            <View style={styles.row}>
             <View style={styles.col}>
               {allergyCheck.map((allergy) => (
                 <View  style={styles.col} key = {allergy.id}>
@@ -174,8 +108,13 @@ export default function SettingScreen({ route, navigation }) {
                   )}
                 </View>
               ))}
+
             </View>
+           
           </View>
+          )
+          }
+          
 
       </View>
 
@@ -187,11 +126,6 @@ export default function SettingScreen({ route, navigation }) {
              <Checklist id ={etc.id} checklist = {etc} onToggle={onToggleEtc}/>
           </View>
         ))}
-        {/* {route.params.etcCheck.map((etc) => (
-          <View style={styles.col} key={etc.id}>
-             <Checklist id ={etc.id} checklist = {etc} onToggle={onToggleEtc}/>
-          </View>
-        ))} */}
       </View>
     </SafeAreaView>
   );
