@@ -16,28 +16,28 @@ React Application Platform : Expo
 
 ## 기능 소개
 
-### [사용자가 앓고 있는 음식 알러지 정보 등록]
+### 1. [사용자가 앓고 있는 음식 알러지 정보 등록]
 ---
 
 <img src= "https://user-images.githubusercontent.com/26588989/97098908-a9ea3900-16c5-11eb-9550-fc59e109da7e.jpg" width=200 >
 
----
-### [키워드 검색]
+
+### 2. [키워드 검색]
 ---
 
 <img src= "https://user-images.githubusercontent.com/26588989/97098910-af478380-16c5-11eb-9ec4-b86c6f76b9df.jpg" width=200 >
 
----
-### [바코드 스캔]
+
+### 3. [바코드 스캔]
 ---
 
 <img src= "https://user-images.githubusercontent.com/26588989/97098917-c4241700-16c5-11eb-88fb-d41522b3d78e.jpg" width=200 >
 
 사용 module : expo-barcode-scanner
 
----
 
-### [상세정보 아이콘 표시 및 알러지 정보 관련 팝업 생성]
+
+### 4. [상세정보 아이콘 표시 및 알러지 정보 관련 팝업 생성]
 ---
 <div>
 <img src= "https://user-images.githubusercontent.com/26588989/97098919-daca6e00-16c5-11eb-8752-caca73298d95.jpg" width=200 >
