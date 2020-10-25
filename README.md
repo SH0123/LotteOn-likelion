@@ -4,9 +4,12 @@
 
 ## 언어 및 라이브러리
 
+```
 Front-End : React-Native, Java Script
 Back-End : Django, Python, PythonAnywhere
 React Application Platform : Expo
+
+```
 
 ---
 
