@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, FlatList, Modal, Button } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
-import {useIsFocused} from '@react-navigation/native'
+import { useIsFocused } from '@react-navigation/native'
 
 const { width, height } = Dimensions.get('window');
 
@@ -42,7 +42,6 @@ export default function IngResultScreen({ route, navigation }) {
             .then((json) => json.filter(i => i.checked === true))
             .then(arr => arr.map(index => index.content))
             .then(allergies => setUserAllergy(allergies))
-            .then(console.log("useEffect"))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, [isFocused]);

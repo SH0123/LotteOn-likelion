@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity, 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import {useIsFocused} from '@react-navigation/native'
+import { useIsFocused } from '@react-navigation/native'
 
 const { width, height } = Dimensions.get('window');
 
@@ -59,7 +59,7 @@ export default function SearchScreen({ route, navigation }) {
         ret.push(foodArr[i]);
       }
     }
-    console.log(ret);
+
     return ret;
   }
 
