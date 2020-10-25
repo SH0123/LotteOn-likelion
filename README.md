@@ -5,7 +5,7 @@
 
 > LOTTE X LIKELION 
 
----
+
 
 ## 🐶 사용 기술 스택
 ### Frontend
@@ -18,8 +18,8 @@
 - Python Anywhere
 
 
----
-## Scan On APP
+
+## 📷 Scan On APP
 
 ### 🎥[Scan-On Demo 영상](https://youtu.be/bmheNd4CJQo)
 
@@ -27,7 +27,6 @@
 
 > 아래 링크를 통해서는 2020-11-24 까지만 다운로드 가능
 
-----
 
 ## 👌 기능 소개
 
