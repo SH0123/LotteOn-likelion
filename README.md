@@ -1,20 +1,35 @@
-# Scan-On Lotte X LikeLion 2020
+<h1 align="center"> Scan_On📷 </h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
+</p>
 
-
-
-## 언어 및 라이브러리
-
-
-Front-End : React-Native, Java Script
-
-Back-End : Django, Python, PythonAnywhere
-
-React Application Platform : Expo
-
+> LOTTE X LIKELION 
 
 ---
 
-## 기능 소개
+## 🐶 사용 기술 스택
+### Frontend
+- <img src="https://img.shields.io/badge/react_native%20-%2320232a.svg?&style=for-the-badge&logo=react&logoColor=%2361DAFB"/>
+- <img src="https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/>
+- Expo
+### Backend
+- <img src="https://img.shields.io/badge/django%20-%23092E20.svg?&style=for-the-badge&logo=django&logoColor=white"/>
+- Rest framework
+- Python Anywhere
+
+
+---
+## Scan On APP
+
+### 🎥[Scan-On Demo 영상](https://youtu.be/bmheNd4CJQo)
+
+### 📲[apk 파일 다운로드](https://expo.io/artifacts/d9200809-242f-4d70-b4d4-3061fda60f4a)
+
+> 아래 링크를 통해서는 2020-11-24 까지만 다운로드 가능
+
+----
+
+## 👌 기능 소개
 
 ### 1. [사용자가 앓고 있는 음식 알러지 정보 등록]
 
@@ -47,15 +62,9 @@ React Application Platform : Expo
 </div>
 
 
----
-## Scan-On Demo
 
-https://youtu.be/bmheNd4CJQo
 
----
 
-## apk 파일 다운로드
 
-##### 아래 링크를 통해서는 2020-11-24 까지만 다운로드 가능
 
-https://expo.io/artifacts/d9200809-242f-4d70-b4d4-3061fda60f4a
+
