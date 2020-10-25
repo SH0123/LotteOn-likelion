@@ -30,10 +30,10 @@ React Application Platform : Expo
 ---
 ### 3. [바코드 스캔]
 
+##### 사용 module : expo-barcode-scanner
 
 <img src= "https://user-images.githubusercontent.com/26588989/97098917-c4241700-16c5-11eb-88fb-d41522b3d78e.jpg" width=200 >
 
-사용 module : expo-barcode-scanner
 
 ---
 
