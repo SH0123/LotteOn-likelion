@@ -18,6 +18,8 @@ React Application Platform : Expo
 
 ### [사용자가 앓고 있는 음식 알러지 정보 등록]
 
+<img src= "https://user-images.githubusercontent.com/26588989/97098908-a9ea3900-16c5-11eb-9550-fc59e109da7e.jpg" width=200 >
+
 ![KakaoTalk_20201024_130418990_01](https://user-images.githubusercontent.com/26588989/97098908-a9ea3900-16c5-11eb-9550-fc59e109da7e.jpg)
 
 ### [키워드 검색]
