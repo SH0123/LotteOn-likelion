@@ -56,6 +56,6 @@ https://youtu.be/bmheNd4CJQo
 
 ## apk 파일 다운로드
 
-### 아래 링크를 통해서는 2020-11-24 까지만 다운로드 가능
+##### 아래 링크를 통해서는 2020-11-24 까지만 다운로드 가능
 
 https://expo.io/artifacts/d9200809-242f-4d70-b4d4-3061fda60f4a
