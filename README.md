@@ -5,6 +5,9 @@
 
 > LOTTE X LIKELION 
 
+## 🦁 TEAM 수상하냥
+- 개발: [김상효](https://github.com/SH0123), [남민정](https://github.com/RunaNam)
+- 기획: 고민경, 김채림
 
 
 ## 🐶 사용 기술 스택
